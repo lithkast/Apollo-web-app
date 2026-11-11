@@ -13,6 +13,7 @@
 //   discordLinkCode       for the site: a one-time code that links someone's Discord to their login
 //   discordUnlink         for the site: undoes that link
 //   discordSetup          for the site (administrator): tells Discord about the slash commands again
+//   pluginClock           for the in-game plugin (ApolloNCC): clock in and out, like the slash commands
 //   listAccounts          for the site (administrator): everyone with an account, Mortals included
 //
 // The bot's token is a secret (DISCORD_BOT_TOKEN): the first deploy asks for it. BOT-SETUP.txt has the steps.
@@ -150,6 +151,9 @@ async function ensureCommands(force) {
 async function clearOldCodes() {
   const old = await database().collection('linkCodes').where('expires', '<', Date.now()).limit(50).get();
   await Promise.all(old.docs.map(d => d.ref.delete()));
+  // banned patrons the plugin saw in the venue: yesterday's are no use to anyone
+  const seen = await database().collection('sightings').where('at', '<', Date.now() - 86400000).limit(50).get();
+  await Promise.all(seen.docs.map(d => d.ref.delete()));
 }
 
 // Discord sends each slash command here, signed with Hermes' key. The reply goes back in the answer when it is ready
@@ -233,6 +237,15 @@ exports.listAccounts = onCall(async request => {
     token = page.pageToken;
   } while (token && users.length < 5000);
   return {users};
+});
+
+// The in-game plugin signs in as the person, with their own email and password, and clocks only them. The work
+// and the wording are Hermes' own (clock.js).
+exports.pluginClock = onCall(async request => {
+  const uid = request.auth && request.auth.uid;
+  if (!uid) throw new HttpsError('unauthenticated', 'Sign in first.');
+  const d = request.data || {};
+  return {message: await clock().direct({db: database(), now: Date.now()}, uid, String(d.action || ''), String(d.kind || ''))};
 });
 
 // Settings: tell Discord about the commands again now (they are also kept up to date by the every-minute check)

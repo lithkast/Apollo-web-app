@@ -381,10 +381,25 @@ async function handle(ctx, body) {
   return 'I don\'t know that one. `/help` lists what I can do.';
 }
 
+// The in-game plugin (ApolloNCC): the same clock as the slash commands, for the login that is signed in there.
+// what: 'clockin', 'clockout', 'pfclockin' (with kind 'pf', 'shout' or 'both') or 'pfclockout'. Returns the reply as
+// Hermes would word it. Only ever the person's own clock: fixing someone else's stays with Hermes and the HR page.
+async function direct(ctx, uid, what, kind) {
+  const {db} = ctx;
+  if (uid !== ADMIN_UID && !(await db.doc('accounts/' + uid).get()).exists) return 'Your login no longer has staff access. Ask the administrator if that\'s a mistake.';
+  const cfg = await settings(db);
+  if (cfg.maintenance && uid !== ADMIN_UID) return 'The site is in maintenance mode, so the HR page can\'t be changed right now. Try again once it\'s over.';
+  if (what === 'clockin') return clockIn(ctx, uid, cfg, null);
+  if (what === 'clockout') return clockOut(ctx, uid, cfg, null);
+  if (what === 'pfclockout') return pfClockOut(ctx, uid, cfg, null);
+  if (what === 'pfclockin') return PROMO[kind] ? pfStart(ctx, uid, cfg, null, kind) : 'Pick party finder, shouts or both.';
+  return 'I don\'t know that one.';
+}
+
 // a link code for someone's profile: 8 letters and numbers that are hard to mix up, good once for 10 minutes
 function newCode(randomInt) {
   let c = ''; for (let i = 0; i < 8; i++) c += CODE_CHARS[randomInt(CODE_CHARS.length)];
   return c;
 }
 
-module.exports = {handle, press, COMMANDS, COMMANDS_VERSION, HELP, PRIVATE, CODE_LIFE, newCode, shiftWindow, roundToQuarter, rules, ADMIN_UID};
+module.exports = {handle, press, direct, COMMANDS, COMMANDS_VERSION, HELP, PRIVATE, CODE_LIFE, newCode, shiftWindow, roundToQuarter, rules, ADMIN_UID};

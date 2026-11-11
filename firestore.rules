@@ -220,6 +220,55 @@ service cloud.firestore {
     }
     // discordLog (what Hermes has already delivered) is for the functions only: no rule, so no one else can touch it
 
+    // The in-game plugin (ApolloNCC). It signs in as the person, so every rule above applies to it as it does to
+    // the site. These three are its own.
+    // Security: bouncers, their managers, the owners and co-owners.
+    function security() {
+      return isOwner() || (hasLogin() && login().get('role', '') in ['bouncer', 'mgr_bouncer', 'asst_bouncer', 'owner', 'coowner']);
+    }
+    function shortText(d, k, n) {
+      return d.get(k, '') is string && d.get(k, '').size() <= n;
+    }
+    // Warnings given to patrons. Security logs them, under their own login, and reads them; they are never
+    // changed. Whoever keeps the Blacklist can remove one.
+    match /warnings/{id} {
+      allow read: if security();
+      allow create: if security() && (isOwner() || !maintenance())
+                    && request.resource.data.keys().hasOnly(['name', 'world', 'reason', 'by', 'byUid', 'at', 'order'])
+                    && request.resource.data.name is string && request.resource.data.name.size() >= 1 && request.resource.data.name.size() <= 40
+                    && shortText(request.resource.data, 'world', 40)
+                    && request.resource.data.reason is string && request.resource.data.reason.size() >= 1 && request.resource.data.reason.size() <= 500
+                    && shortText(request.resource.data, 'by', 80)
+                    && request.resource.data.byUid == request.auth.uid
+                    && request.resource.data.at is number;
+      allow delete: if canEdit('bans');
+    }
+    // A blacklisted player one of security's plugins saw in the venue, so the others are told. Firebase clears
+    // them after a day.
+    match /sightings/{id} {
+      allow read: if security();
+      allow create: if security()
+                    && request.resource.data.keys().hasOnly(['name', 'world', 'ban', 'by', 'byUid', 'at'])
+                    && request.resource.data.name is string && request.resource.data.name.size() >= 1 && request.resource.data.name.size() <= 40
+                    && shortText(request.resource.data, 'world', 40)
+                    && shortText(request.resource.data, 'ban', 300)
+                    && shortText(request.resource.data, 'by', 80)
+                    && request.resource.data.byUid == request.auth.uid
+                    && request.resource.data.at is number;
+      allow delete: if ownerRole();
+    }
+    // The character each login is playing right now (it may be an alt), so Reception can send a tell to the
+    // right one. Each login writes only its own; staff read them.
+    match /presence/{uid} {
+      allow read: if isStaff();
+      allow write: if signedIn() && request.auth.uid == uid && isStaff()
+                   && request.resource.data.keys().hasOnly(['name', 'world', 'at'])
+                   && request.resource.data.name is string && request.resource.data.name.size() <= 40
+                   && request.resource.data.world is string && request.resource.data.world.size() <= 40
+                   && request.resource.data.at is number;
+      allow delete: if signedIn() && request.auth.uid == uid;
+    }
+
     // Guest pages: anyone reads, editors write
     match /reception/{docId} {
       allow read: if isStaff();
