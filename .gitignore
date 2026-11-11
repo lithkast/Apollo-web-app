@@ -1,0 +1,13 @@
+# installed by "firebase deploy" each time; never needs to be kept
+node_modules/
+
+# Firebase's local deploy cache and logs
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+*.local
+
+# keys and passwords must never be uploaded
+.env*
+*serviceAccount*.json
+*-firebase-adminsdk-*.json
