@@ -1,0 +1,2591 @@
+{
+ "exported": "2026-10-04T00:04:33.623773Z",
+ "config": {
+  "banAuthorizers": [
+   "Calypso Drake",
+   "Odysseus Drake",
+   "Eris Descordia",
+   "Masaki Michishige"
+  ],
+  "banReasons": [
+   "inappropriate acts",
+   "Tresspassing",
+   "Non-compliance",
+   "Trolling"
+  ],
+  "barBuyout": 4000000,
+  "barMenu": [],
+  "barSplit": 0.5,
+  "casinoBrackets": [
+   {
+    "rate": 0.2,
+    "upTo": 16000000
+   },
+   {
+    "rate": 0.25,
+    "upTo": 20000000
+   },
+   {
+    "rate": 0.3,
+    "upTo": 25000000
+   },
+   {
+    "rate": 0.35,
+    "upTo": 30000000
+   },
+   {
+    "rate": 0.4,
+    "upTo": null
+   }
+  ],
+  "closeTime": "01:00",
+  "collabPay": 185750,
+  "erpPrice": 150000,
+  "guestRatePrivate": 75000,
+  "guestRatePublic": 50000,
+  "houseSplit": 0.5,
+  "jobs": [
+   {
+    "attend": false,
+    "name": "Goddess",
+    "pay": "infinite"
+   },
+   {
+    "attend": false,
+    "name": "Owner",
+    "pay": "6"
+   },
+   {
+    "attend": false,
+    "name": "Co Owner",
+    "pay": "6"
+   },
+   {
+    "name": "Manager",
+    "pay": "5"
+   },
+   {
+    "name": "Asst. Manager",
+    "pay": "4"
+   },
+   {
+    "flat": 2000000,
+    "name": "DJ",
+    "pay": "flat"
+   },
+   {
+    "flat": 1000000,
+    "name": "Photographer",
+    "pay": "flat"
+   },
+   {
+    "flat": 1000000,
+    "name": "Fortune Teller",
+    "pay": "flat"
+   },
+   {
+    "name": "Bouncer",
+    "pay": "3"
+   },
+   {
+    "name": "Bartender",
+    "pay": "2"
+   },
+   {
+    "name": "Dealer",
+    "pay": "2"
+   },
+   {
+    "name": "Receptionist",
+    "pay": "2"
+   },
+   {
+    "name": "Host",
+    "pay": "1"
+   },
+   {
+    "name": "Dancer",
+    "pay": "1"
+   }
+  ],
+  "payGrades": [
+   125000,
+   150000,
+   175000,
+   200000,
+   225000,
+   250000,
+   1000000
+  ],
+  "proofOptions": [
+   "Yes",
+   "No"
+  ],
+  "raffleClubCut": 0.5,
+  "raffleMacro": "/y 50/50 Raffle Here! Buy tickets before we roll! The lottery is currently at {total}g. Tickets are {price} each with no maximum. Come to the blinking Cactuar to purchase tickets. Must be in our discord to participate. May the luck of Tyche be in your favor!",
+  "raffleTicketPrice": 100000,
+  "receptionBonus": 0.2,
+  "roomRental": 50000,
+  "rooms": [
+   "Poseidon's Deep",
+   "Artemis' Cabin",
+   "Zeus' Throne",
+   "Aphrodite's Garden",
+   "Hades' Abyss",
+   "Eros' Dungeon",
+   "Apollo's Atelier",
+   "Dionysus' Den",
+   "Typhon's Eruption",
+   "Prometheus' Grotto",
+   "Athena's Room",
+   "Hera's Temple Spa",
+   "Plutus' room",
+   "Demeter's room",
+   "Temple Metroon",
+   "Apate's Room"
+  ],
+  "rpPrice": 100000,
+  "startTime": "21:00",
+  "statuses": [
+   "Full Time",
+   "Part Time",
+   "Freelancer",
+   "Temp",
+   "LOA"
+  ],
+  "timeZone": "America/New_York",
+  "vipCost": 300000,
+  "vipDiscount": 0.75,
+  "vipDiscounts": [
+   {
+    "months": 3,
+    "mult": 0.9
+   },
+   {
+    "months": 6,
+    "mult": 0.85
+   },
+   {
+    "months": 9,
+    "mult": 0.8
+   },
+   {
+    "months": 12,
+    "mult": 0.75
+   }
+  ],
+  "vipStart": "20:30",
+  "vipStatuses": [
+   "VIP"
+  ],
+  "worlds": [
+   "Aether",
+   "Primal",
+   "Crystal",
+   "Dynamis"
+  ]
+ },
+ "docs": {
+  "night/casino": {
+   "s1Dealers": [],
+   "s1Gross": null,
+   "s2Dealers": [],
+   "s2Gross": null
+  },
+  "reference/gods": {
+   "items": [
+    {
+     "n": "Aceso",
+     "of": "healing process and recovery"
+    },
+    {
+     "n": "Achelois",
+     "of": "moonlight and the washing away of pain"
+    },
+    {
+     "n": "Achelous",
+     "of": "the Achelous River and freshwater"
+    },
+    {
+     "n": "Achlys",
+     "of": "the mist of death, sorrow, and misery"
+    },
+    {
+     "n": "Adikia",
+     "of": "injustice and wrongdoing"
+    },
+    {
+     "n": "Adrasteia",
+     "of": "inescapable fate and divine retribution"
+    },
+    {
+     "n": "Aeolus",
+     "of": "keeper of the winds"
+    },
+    {
+     "n": "Aether",
+     "of": "the bright upper air and heavenly light"
+    },
+    {
+     "n": "Aglaea",
+     "of": "splendor, beauty, glory, and adornment"
+    },
+    {
+     "n": "Aidos",
+     "of": "shame, modesty, respect, and humility"
+    },
+    {
+     "n": "Aion",
+     "of": "eternity, cyclical time, and the ages"
+    },
+    {
+     "n": "Alecto",
+     "of": "unceasing anger and punishment of moral crimes"
+    },
+    {
+     "n": "Aletheia",
+     "of": "truth and sincerity"
+    },
+    {
+     "n": "Alpheus",
+     "of": "the Alpheus River and freshwater"
+    },
+    {
+     "n": "Amphitrite",
+     "of": "the sea; queen of the sea"
+    },
+    {
+     "n": "Ananke",
+     "of": "necessity, compulsion, and inevitability"
+    },
+    {
+     "n": "Anteros",
+     "of": "requited love and avenger of unreturned love"
+    },
+    {
+     "n": "Apate",
+     "of": "deceit, fraud, and deception"
+    },
+    {
+     "n": "Aphrodite",
+     "of": "love, beauty, desire, pleasure, and procreation"
+    },
+    {
+     "n": "Apollo",
+     "of": "music, prophecy, healing, archery, poetry, light, and plague"
+    },
+    {
+     "n": "Ares",
+     "of": "war, battle, bloodshed, and courage"
+    },
+    {
+     "n": "Arete",
+     "of": "excellence, virtue, and moral goodness"
+    },
+    {
+     "n": "Aristaeus",
+     "of": "beekeeping, olive growing, herding, hunting, and rural crafts"
+    },
+    {
+     "n": "Artemis",
+     "of": "the hunt, wilderness, wild animals, childbirth, and young girls"
+    },
+    {
+     "n": "Asclepius",
+     "of": "medicine and healing"
+    },
+    {
+     "n": "Asopus",
+     "of": "the Asopus River and freshwater"
+    },
+    {
+     "n": "Asteria",
+     "of": "falling stars, nighttime divination, and oracles"
+    },
+    {
+     "n": "Astraea",
+     "of": "justice, innocence, purity, and the stars"
+    },
+    {
+     "n": "Astraeus",
+     "of": "dusk, stars, planets, and astrology"
+    },
+    {
+     "n": "Ate",
+     "of": "ruin, reckless impulse, delusion, and folly"
+    },
+    {
+     "n": "Athena",
+     "of": "wisdom, strategy, crafts, cities, and defensive warfare"
+    },
+    {
+     "n": "Atlas",
+     "of": "endurance, astronomy, and the bearing of the heavens"
+    },
+    {
+     "n": "Aura",
+     "of": "breezes and fresh morning air"
+    },
+    {
+     "n": "Auxo",
+     "of": "growth and the flourishing of plants"
+    },
+    {
+     "n": "Bia",
+     "of": "force, might, and raw power"
+    },
+    {
+     "n": "Boreas",
+     "of": "the north wind and winter"
+    },
+    {
+     "n": "Brizo",
+     "of": "sailors, navigation, and prophetic dreams"
+    },
+    {
+     "n": "Calliope",
+     "of": "epic poetry and eloquence"
+    },
+    {
+     "n": "Carpo",
+     "of": "fruit, harvest, and ripening"
+    },
+    {
+     "n": "Cephissus",
+     "of": "the Cephissus River and freshwater"
+    },
+    {
+     "n": "Chaos",
+     "of": "the primordial void and gap from which creation emerged"
+    },
+    {
+     "n": "Charon",
+     "of": "the ferrying of the dead across the rivers of the Underworld"
+    },
+    {
+     "n": "Chloris",
+     "of": "flowers, blossoms, and spring"
+    },
+    {
+     "n": "Chronos",
+     "of": "time in Orphic cosmology"
+    },
+    {
+     "n": "Clio",
+     "of": "history"
+    },
+    {
+     "n": "Clotho",
+     "of": "spinning the thread of life"
+    },
+    {
+     "n": "Coeus",
+     "of": "intellect, inquiry, and the axis of heaven"
+    },
+    {
+     "n": "Cratus (Kratos)",
+     "of": "strength, power, and sovereign authority"
+    },
+    {
+     "n": "Crius",
+     "of": "the constellations and the ordering of the heavens"
+    },
+    {
+     "n": "Cronus",
+     "of": "the harvest, agriculture, and the Golden Age"
+    },
+    {
+     "n": "Cymopoleia",
+     "of": "violent sea storms, waves, and storm surges"
+    },
+    {
+     "n": "Deimos",
+     "of": "terror and dread in battle"
+    },
+    {
+     "n": "Demeter",
+     "of": "agriculture, grain, harvest, fertility, and sacred law"
+    },
+    {
+     "n": "Despoina",
+     "of": "Arcadian mysteries and sacred fertility rites"
+    },
+    {
+     "n": "Dike",
+     "of": "justice, fair judgment, and moral order"
+    },
+    {
+     "n": "Dione",
+     "of": "divine prophecy and the oracle at Dodona"
+    },
+    {
+     "n": "Dionysus",
+     "of": "wine, ecstasy, theater, festivity, madness, and vegetation"
+    },
+    {
+     "n": "Dolos",
+     "of": "trickery, deception, and cunning"
+    },
+    {
+     "n": "Doris",
+     "of": "the bounty and fertility of the sea"
+    },
+    {
+     "n": "Dysnomia",
+     "of": "lawlessness and civil disorder"
+    },
+    {
+     "n": "Eileithyia",
+     "of": "childbirth and labor"
+    },
+    {
+     "n": "Eirene",
+     "of": "peace and prosperity"
+    },
+    {
+     "n": "Eleos",
+     "of": "mercy, pity, and compassion"
+    },
+    {
+     "n": "Elpis",
+     "of": "hope and expectation"
+    },
+    {
+     "n": "Enyo",
+     "of": "war, destruction, and bloodshed"
+    },
+    {
+     "n": "Eos",
+     "of": "the dawn"
+    },
+    {
+     "n": "Epimetheus",
+     "of": "afterthought and hindsight"
+    },
+    {
+     "n": "Epione",
+     "of": "the soothing of pain"
+    },
+    {
+     "n": "Erato",
+     "of": "love poetry and erotic verse"
+    },
+    {
+     "n": "Erebos (Erebus)",
+     "of": "darkness and shadow"
+    },
+    {
+     "n": "Eris",
+     "of": "strife, discord, rivalry, and conflict"
+    },
+    {
+     "n": "Eros",
+     "of": "love, sexual desire, attraction, and procreation"
+    },
+    {
+     "n": "Eucleia",
+     "of": "good reputation, glory, and honorable conduct"
+    },
+    {
+     "n": "Eunomia",
+     "of": "good order, lawful conduct, and governance"
+    },
+    {
+     "n": "Euphrosyne",
+     "of": "joy, mirth, and good cheer"
+    },
+    {
+     "n": "Eurus",
+     "of": "the east or southeast wind"
+    },
+    {
+     "n": "Eurybia",
+     "of": "mastery of the sea, winds, and constellations"
+    },
+    {
+     "n": "Euterpe",
+     "of": "music and lyric poetry"
+    },
+    {
+     "n": "Gaia",
+     "of": "the Earth, land, fertility, and motherhood"
+    },
+    {
+     "n": "Galatea",
+     "of": "calm seas and sea life"
+    },
+    {
+     "n": "Geras",
+     "of": "old age"
+    },
+    {
+     "n": "Glaucus",
+     "of": "the sea, fishermen, and sea prophecy"
+    },
+    {
+     "n": "Hades",
+     "of": "the Underworld, the dead, and hidden wealth beneath the earth"
+    },
+    {
+     "n": "Harmonia",
+     "of": "harmony, concord, and marital unity"
+    },
+    {
+     "n": "Hebe",
+     "of": "youth and the prime of life"
+    },
+    {
+     "n": "Hecate",
+     "of": "magic, witchcraft, crossroads, ghosts, night, and boundaries"
+    },
+    {
+     "n": "Helios",
+     "of": "the sun, sight, and oaths"
+    },
+    {
+     "n": "Hemera",
+     "of": "the day and daylight"
+    },
+    {
+     "n": "Hephaestus",
+     "of": "fire, metalworking, smithing, craftsmanship, and volcanoes"
+    },
+    {
+     "n": "Hera",
+     "of": "marriage, queenship, women, family, and childbirth"
+    },
+    {
+     "n": "Hermaphroditus",
+     "of": "androgyny, union of sexes, and marriage"
+    },
+    {
+     "n": "Hermes",
+     "of": "travel, trade, thieves, messages, boundaries, luck, and eloquence"
+    },
+    {
+     "n": "Hesperus",
+     "of": "the evening star"
+    },
+    {
+     "n": "Hestia",
+     "of": "the hearth, home, domestic life, and sacred fire"
+    },
+    {
+     "n": "Himeros",
+     "of": "sexual desire and longing"
+    },
+    {
+     "n": "Horkos",
+     "of": "oaths and punishment for perjury"
+    },
+    {
+     "n": "Hybris",
+     "of": "insolence, outrage, and excessive pride"
+    },
+    {
+     "n": "Hygieia",
+     "of": "health, cleanliness, and prevention of disease"
+    },
+    {
+     "n": "Hymenaios",
+     "of": "marriage, weddings, and wedding songs"
+    },
+    {
+     "n": "Hyperion",
+     "of": "heavenly light, watchfulness, and the cycles of sun and moon"
+    },
+    {
+     "n": "Hypnos",
+     "of": "sleep"
+    },
+    {
+     "n": "Iacchus",
+     "of": "ritual procession, ecstatic celebration, and the Eleusinian Mysteries"
+    },
+    {
+     "n": "Iapetus",
+     "of": "mortality, human lifespan, and the mortal condition"
+    },
+    {
+     "n": "Iaso",
+     "of": "recuperation and recovery from illness"
+    },
+    {
+     "n": "Inachus",
+     "of": "the Inachus River and freshwater"
+    },
+    {
+     "n": "Iris",
+     "of": "the rainbow, divine messages, and communication"
+    },
+    {
+     "n": "Kairos",
+     "of": "the opportune moment and the right time to act"
+    },
+    {
+     "n": "Keres",
+     "of": "violent death, doom, and battlefield slaughter"
+    },
+    {
+     "n": "Lachesis",
+     "of": "measuring the thread of life and allotting destiny"
+    },
+    {
+     "n": "Lelantos",
+     "of": "stealth, concealment, and moving unseen"
+    },
+    {
+     "n": "Leto",
+     "of": "motherhood and protection of the young"
+    },
+    {
+     "n": "Leucothea",
+     "of": "the sea and protection of sailors in distress"
+    },
+    {
+     "n": "Limos",
+     "of": "famine, hunger, and starvation"
+    },
+    {
+     "n": "Lyssa",
+     "of": "mad rage, frenzy, and rabies"
+    },
+    {
+     "n": "Macaria",
+     "of": "blessed death and a peaceful afterlife"
+    },
+    {
+     "n": "Mania",
+     "of": "madness, frenzy, and insanity"
+    },
+    {
+     "n": "Megaera",
+     "of": "jealous rage and punishment of infidelity"
+    },
+    {
+     "n": "Melinoe",
+     "of": "ghosts, nightmares, and restless spirits"
+    },
+    {
+     "n": "Melpomene",
+     "of": "tragedy"
+    },
+    {
+     "n": "Metis",
+     "of": "wisdom, cunning, counsel, and deep thought"
+    },
+    {
+     "n": "Mnemosyne",
+     "of": "memory and remembrance"
+    },
+    {
+     "n": "Moirai",
+     "of": "fate and the destinies of mortals"
+    },
+    {
+     "n": "Momus",
+     "of": "mockery, blame, criticism, and satire"
+    },
+    {
+     "n": "Morpheus",
+     "of": "dreams that take human form"
+    },
+    {
+     "n": "Nemesis",
+     "of": "divine retribution, balance, and punishment of arrogance"
+    },
+    {
+     "n": "Nephele",
+     "of": "clouds"
+    },
+    {
+     "n": "Nereus",
+     "of": "the sea, gentle waters, truth, and prophecy"
+    },
+    {
+     "n": "Nike",
+     "of": "victory"
+    },
+    {
+     "n": "Notus",
+     "of": "the south wind and late-summer storms"
+    },
+    {
+     "n": "Nyx",
+     "of": "the night"
+    },
+    {
+     "n": "Oceanus",
+     "of": "the world-encircling river and freshwater"
+    },
+    {
+     "n": "Oizys",
+     "of": "misery, anxiety, grief, and distress"
+    },
+    {
+     "n": "Oneiroi",
+     "of": "dreams"
+    },
+    {
+     "n": "Ourea",
+     "of": "mountains and rocky highlands"
+    },
+    {
+     "n": "Palaemon",
+     "of": "harbors, sailors, and protection at sea"
+    },
+    {
+     "n": "Pan",
+     "of": "the wild, shepherds, flocks, rustic music, and panic"
+    },
+    {
+     "n": "Panacea",
+     "of": "universal remedies and cures"
+    },
+    {
+     "n": "Peitho",
+     "of": "persuasion, seduction, and charming speech"
+    },
+    {
+     "n": "Peneus",
+     "of": "the Peneus River and freshwater"
+    },
+    {
+     "n": "Penthos",
+     "of": "grief, mourning, and sorrow"
+    },
+    {
+     "n": "Persephone",
+     "of": "the Underworld, spring growth, vegetation, and rebirth"
+    },
+    {
+     "n": "Perses",
+     "of": "destruction and ruin"
+    },
+    {
+     "n": "Phanes",
+     "of": "creation, procreation, and the emergence of life"
+    },
+    {
+     "n": "Phantasos",
+     "of": "surreal dreams and dreams of inanimate things"
+    },
+    {
+     "n": "Pheme",
+     "of": "fame, rumor, gossip, and public reputation"
+    },
+    {
+     "n": "Philotes",
+     "of": "affection, friendship, intimacy, and sexual union"
+    },
+    {
+     "n": "Phobetor (Icelus)",
+     "of": "nightmares and dreams of animals and monsters"
+    },
+    {
+     "n": "Phobos",
+     "of": "fear and panic in battle"
+    },
+    {
+     "n": "Phoebe",
+     "of": "bright intellect, prophecy, and the Delphic oracle"
+    },
+    {
+     "n": "Phorcys",
+     "of": "hidden dangers of the deep sea"
+    },
+    {
+     "n": "Plutus",
+     "of": "wealth, riches, and agricultural abundance"
+    },
+    {
+     "n": "Poine",
+     "of": "punishment, vengeance, and recompense"
+    },
+    {
+     "n": "Polyhymnia",
+     "of": "sacred poetry, hymns, meditation, and eloquence"
+    },
+    {
+     "n": "Ponos",
+     "of": "toil, hard labor, and hardship"
+    },
+    {
+     "n": "Pontus",
+     "of": "the sea"
+    },
+    {
+     "n": "Poseidon",
+     "of": "the sea, earthquakes, horses, and storms"
+    },
+    {
+     "n": "Pothos",
+     "of": "yearning, longing, and desire for what is absent"
+    },
+    {
+     "n": "Priapus",
+     "of": "fertility, gardens, livestock, and male sexuality"
+    },
+    {
+     "n": "Prometheus",
+     "of": "forethought, fire, craft, and human progress"
+    },
+    {
+     "n": "Proteus",
+     "of": "the sea, prophecy, and change"
+    },
+    {
+     "n": "Psyche",
+     "of": "the soul and breath of life"
+    },
+    {
+     "n": "Rhea",
+     "of": "motherhood, fertility, generation, and mountain wilds"
+    },
+    {
+     "n": "Scamander",
+     "of": "the Scamander River and freshwater"
+    },
+    {
+     "n": "Selene",
+     "of": "the moon"
+    },
+    {
+     "n": "Soteria",
+     "of": "safety, deliverance, preservation, and protection from harm"
+    },
+    {
+     "n": "Tartarus",
+     "of": "the abyss beneath the Underworld and divine imprisonment"
+    },
+    {
+     "n": "Telesphorus",
+     "of": "convalescence and recovery from illness"
+    },
+    {
+     "n": "Terpsichore",
+     "of": "dance and choral song"
+    },
+    {
+     "n": "Tethys",
+     "of": "freshwater, nourishing waters, and the nursing of life"
+    },
+    {
+     "n": "Thalassa",
+     "of": "the sea and seawater"
+    },
+    {
+     "n": "Thalia (Grace)",
+     "of": "festivity, abundance, and good cheer"
+    },
+    {
+     "n": "Thalia (Muse)",
+     "of": "comedy and pastoral poetry"
+    },
+    {
+     "n": "Thallo",
+     "of": "spring, budding plants, and new growth"
+    },
+    {
+     "n": "Thanatos",
+     "of": "peaceful death"
+    },
+    {
+     "n": "Thaumas",
+     "of": "the wonders and marvels of the sea"
+    },
+    {
+     "n": "Theia",
+     "of": "sight, shining light, brilliance, and precious metals"
+    },
+    {
+     "n": "Themis",
+     "of": "divine law, order, custom, and prophecy"
+    },
+    {
+     "n": "Thetis",
+     "of": "the sea and protection of sailors"
+    },
+    {
+     "n": "Tisiphone",
+     "of": "punishment of murder and blood crimes"
+    },
+    {
+     "n": "Triptolemus",
+     "of": "agriculture, grain cultivation, and farming"
+    },
+    {
+     "n": "Triton",
+     "of": "the sea, waves, and heralding Poseidon's commands"
+    },
+    {
+     "n": "Tyche",
+     "of": "fortune, chance, prosperity, and the fate of cities"
+    },
+    {
+     "n": "Urania",
+     "of": "astronomy and celestial knowledge"
+    },
+    {
+     "n": "Uranus",
+     "of": "the sky and heavens"
+    },
+    {
+     "n": "Zelus",
+     "of": "zeal, rivalry, emulation, and dedication"
+    },
+    {
+     "n": "Zephyrus",
+     "of": "the west wind and spring"
+    },
+    {
+     "n": "Zeus",
+     "of": "the sky, thunder, lightning, kingship, law, justice, and hospitality"
+    }
+   ]
+  },
+  "reference/legacy_employees": {
+   "names": [
+    "Odysseus Drake",
+    "Eris Strife",
+    "Masaki Michishige",
+    "Mother Mavis",
+    "Sammie Amariyo",
+    "Tyrus Gray",
+    "Serena Kiara",
+    "Kayanaru Fujioke/Mikh'a",
+    "Skaes Ashura",
+    "Zoey Summers",
+    "Rufwyrd Falvard",
+    "Maria Baker",
+    "L'hira Guildford",
+    "Bibby",
+    "Cyrus Shinjuu",
+    "Galatea Cytheria",
+    "Ignir Starclaw",
+    "Kuva Curebringer",
+    "Soku Arai",
+    "Yami Karma",
+    "Krahl Dahros",
+    "Veryl Moonlight",
+    "Aku Alias",
+    "Azrieil Voss",
+    "L’okia Khosote",
+    "Artemis Regalis",
+    "Alys Sylvus",
+    "Beki Dotharl",
+    "Bojan Stride",
+    "Ceane Stark",
+    "Eleri Izumi (Xerikh)",
+    "Kaety Laine",
+    "Lorelon Gilestel",
+    "Roxanne Violet",
+    "Serenity Lxve",
+    "Snow Lightingbringer",
+    "Soffy Bao",
+    "Tersa Yoru",
+    "V’lyrha Ahrun",
+    "Xena Darkwater",
+    "Yin Maraline",
+    "Y'uze Nunh",
+    "Zaereah Galeborne",
+    "Ivix Trulaut",
+    "Alura Vevica/Sunflower",
+    "Agust D'",
+    "Alka Darkvail",
+    "Gieda Phlytgloe",
+    "Erin’dua Faeriefire",
+    "Val Lewd",
+    "Manya/Lylah",
+    "Whisper Obsidian",
+    "Cyprus Wisteria",
+    "Mono'sono Glu'tame",
+    "Rissaroodle",
+    "Shar Ky",
+    "Xanny Stride",
+    "Calico Valentine",
+    "Deast",
+    "DJ Sylv",
+    "Euliemia (DJ Moonlight)",
+    "Keri Beri",
+    "Reina Fyre (DJ Remix)",
+    "Guest",
+    "Casino Staff",
+    "Bella (Portabella) Mushroom",
+    "Odysseus Aetos",
+    "Keres Shadowfallen",
+    "Valyra Ahri",
+    "Yumei Moon"
+   ]
+  },
+  "reference/dealer_macros": {
+   "game": "Apollo Blackjack",
+   "items": [
+    {
+     "after": "",
+     "before": "",
+     "code": "01",
+     "id": "m01",
+     "name": "01 Table Rules",
+     "text": "/p Table Rules: <wait.1>\n/p - Minimum Bet: 100,000 gil | Maximum Bet: 500,000 gil <wait.1>\n/p - Blackjack pays 3:2, Dealer stands on soft 17 or above. <wait.1>\n/p - One split maximum. Players may not Double Down on Splits. <wait.1>\n/p - A Dealer natural BlackJack defeats all non-natural hands, and Player natural BlackJack pushes against a dealer natural Blackjack. <wait.1>\n/p - A Player natural BlackJack may accept an \"Even Money\" 1:1 payment on their turn if the Dealer's up-card is Ace. <wait.1>\n/p - If Player accepts \"Even Money\" they are paid and removed from the remainder of the hand. <wait.1>\n/p - Card values: 1 = Ace, 2-10 = Face Value, 11-13 = Jack, Queen, and King respectively.",
+     "title": "Table Rules"
+    },
+    {
+     "after": "",
+     "before": "",
+     "code": "02",
+     "id": "m02",
+     "name": "02 Open Betting",
+     "text": "/p ★ Welcome to Apollo Blackjack! The table is now accepting wagers. <wait.1>\n/p Minimum Wager: 100,000 gil | Maximum Wager: 500,000 gil <wait.1>\n/p Bets will be collected and cards will be dealt clockwise around the table. Please trade your wager when called. <wait.1>\n/p ☀ May Apollo's light favor the bold. Place your bets! <se.2>",
+     "title": "Open Betting"
+    },
+    {
+     "after": "",
+     "before": "",
+     "code": "03",
+     "id": "m03",
+     "name": "03 Betting Closed",
+     "text": "/victorypose motion\n/p ◆ All offerings have been received. Betting is now CLOSED. <wait.1>\n/p ☀ The Fates are set. Let us begin.",
+     "title": "Betting Closed"
+    },
+    {
+     "after": "",
+     "before": "",
+     "code": "04",
+     "id": "m04",
+     "name": "04 Dealer 1st Card",
+     "text": "/battlestance motion\n/p The Fates offer us a glimpse of the future as the game begins. The Dealer shall receive their first card.\n/wait 1\n/dice party 13",
+     "title": "Dealer's First Card"
+    },
+    {
+     "after": "",
+     "before": "Target the active player.",
+     "code": "05",
+     "id": "m05",
+     "name": "05 Begin Hand",
+     "text": "/battlestance motion\n/p ☀ <t> , your hand shall now be revealed. May Apollo smile upon you. <se.1>\n/wait 1\n/dice party 13\n/dice party 13",
+     "title": "Begin Player Hand"
+    },
+    {
+     "after": "",
+     "before": "If players first two cards are an Ace and a 10 or above valued card, and the dealer does not have an Ace as their up-card, the player wins BlackJack. Otherwise, move to Macro Set (06-O2-P1) if Dealer has Ace. If player does not have BlackJack skip this step and move to Macro Set (7).",
+     "code": "06-O1",
+     "id": "m06o1",
+     "name": "06-O1 Natural BJ",
+     "text": "/clap motion\n/p ☀ <t> has been blessed by the Fates! Congratulations on your BlackJack! <se.15>",
+     "title": "Natural Blackjack"
+    },
+    {
+     "after": "",
+     "before": "If player has a natural BlackJack and the Dealer has Ace as the up-card, the player has the option to take Even Money which pays 1:1 on their original bet. If player accepts, proceed with Macro (06-O2-P2), otherwise, continue the game at Macro Set (07-O1)",
+     "code": "06-O2-P1",
+     "id": "m06o2p1",
+     "name": "06-O2-P1 Even Money",
+     "text": "/p <t> , you may accept an even payout to your original bet now, or you may risk a push if the Dealer has BlackJack. Which would you prefer?",
+     "title": "Even Money"
+    },
+    {
+     "after": "Pay the Player 1:1",
+     "before": "If Player BlackJack does not accept Even Money against Dealer Ace, skip this step and move to next player restarting at Macro Set (05). Player BlackJack will be played against the Dealer's hand at the end of the round",
+     "code": "06-O2-P2",
+     "id": "m06o2p2",
+     "name": "06-O2-P2 Accept Even",
+     "text": "/thumbsup motion\n/p <t> accepts Even Money! You will now be paid for your BlackJack! <se.2>",
+     "title": "Accept Even Money"
+    },
+    {
+     "after": "",
+     "before": "All hands have the option to Hit, Stand, or Double Down as their first option. If the first two cards of a hand are a matching pair or two cards valued 10 or above, use Macro (07-O2) instead.",
+     "code": "07-O1",
+     "id": "m07o1",
+     "name": "07-O1 Hit/Stand/DD",
+     "text": "/p <t> , will you Hit, Stand, or Double Down?",
+     "title": "Hit, Stand, Double Down"
+    },
+    {
+     "after": "",
+     "before": "",
+     "code": "07-O2",
+     "id": "m07o2",
+     "name": "07-O2 H/S/DD/Split",
+     "text": "/p <t> , will you Hit, Stand, Double Down, or Split?",
+     "title": "Hit, Stand, Double Down, or Split?"
+    },
+    {
+     "after": "",
+     "before": "",
+     "code": "08-O1",
+     "id": "m08o1",
+     "name": "08-O1 Hit",
+     "text": "/battlestance motion\n/p ☀ <t> calls upon the Fates for another card... <se.4>\n/wait 1\n/dice party 13",
+     "title": "Hit"
+    },
+    {
+     "after": "",
+     "before": "",
+     "code": "08-O2",
+     "id": "m08o2",
+     "name": "08-O2 Stand",
+     "text": "/p ◆ <t> chooses to stand. Their fate is sealed.",
+     "title": "Stand"
+    },
+    {
+     "after": "After the wager is received, use Macro Set (08-O1). The player's hand then stands automatically. Move to the next player and restart with Macro Set (05)",
+     "before": "Collect the player's matching wager before dealing the final card.",
+     "code": "08-O3",
+     "id": "m08o3",
+     "name": "08-O3 Double Down",
+     "text": "/rally motion\n/p ◆ <t> doubles their offering to the Fates! <wait.1>\n/p Please match your original wager to continue. One final card will then be drawn.",
+     "title": "Double Down"
+    },
+    {
+     "after": "After the matching wager is received, use macros (08-O1) and (08-O2) to conclude each hand. Split hands are ineligible for natural BlackJacks. All 21's received during splits are considered soft.",
+     "before": "",
+     "code": "08-O4",
+     "id": "m08o4",
+     "name": "08-O4 Split",
+     "text": "/thumbsup motion\n/p ◆ <t> divides their fate and splits the hand in two! Please match your original wager to continue.",
+     "title": "Split"
+    },
+    {
+     "after": "",
+     "before": "after the player receives a third card, the only available options are to Hit or Stand. If player Stands during Macro Set (7), skip this step. Repeat this step until player Stands or Busts. If player stands, use Macro Set (08-O2). If player Busts, use Macro Set (09-O2).",
+     "code": "09-O1",
+     "id": "m09o1",
+     "name": "09-O1 Hit or Stand",
+     "text": "/p <t> , will you Hit or Stand?",
+     "title": "Hit or Stand?"
+    },
+    {
+     "after": "For a split hand, continue to the player's second hand instead of moving to the next player. Following the conclusion of Macro Sets (08) and (09), restart at Macro Set (05) for the next player until all players have been dealt their cards",
+     "before": "",
+     "code": "09-O2",
+     "id": "m09o2",
+     "name": "09-O2 Player Bust",
+     "text": "/facepalm motion\n/p ◆ <t> has BUSTED. Their hand is lost. May the Fates have a brighter future in store for you! <se.11>",
+     "title": "Player Bust"
+    },
+    {
+     "after": "",
+     "before": "",
+     "code": "10",
+     "id": "m10",
+     "name": "10 Dealer Turn",
+     "text": "/battlestance motion\n/p ☀ The challengers have received their fate. Now the dealer must face their own...\n/wait 1\n/dice party 13",
+     "title": "Dealer Turn"
+    },
+    {
+     "after": "",
+     "before": "If dealer does not receive BlackJack, skip this step and continue with Macro Set (12)",
+     "code": "11",
+     "id": "m11",
+     "name": "11 Dealer Natural BJ",
+     "text": "/facepalm motion\n/p ☀ To the player's dismay, Apollo has blessed the house with a natural BlackJack. <se.11>\n/wait 1\n/p ◆ All non-Blackjack hands lose. Any player with a natural Blackjack pushes.",
+     "title": "Dealer Natural Blackjack"
+    },
+    {
+     "after": "",
+     "before": "",
+     "code": "12-O1",
+     "id": "m12o1",
+     "name": "12-O1 Dealer Hit",
+     "text": "/battlestance motion\n/p ◆ The house draws beneath Apollo's watch...\n/wait 1\n/dice party 13",
+     "title": "Dealer Hit"
+    },
+    {
+     "after": "",
+     "before": "",
+     "code": "12-O2",
+     "id": "m12o2",
+     "name": "12-O2 Dealer Stand",
+     "text": "/p ◆ The house stands. Apollo's judgment is set. <wait.1>\n/p ☀ All remaining hands will now be settled against the dealer.",
+     "title": "Dealer Stand"
+    },
+    {
+     "after": "",
+     "before": "",
+     "code": "13",
+     "id": "m13",
+     "name": "13 Dealer Bust",
+     "text": "/cheer motion\n/p ◆ The dealer has BUSTED. The Fates favor the remaining challengers! <se.7>",
+     "title": "Dealer Bust"
+    },
+    {
+     "after": "Standard wins pay 1:1.",
+     "before": "",
+     "code": "14",
+     "id": "m14",
+     "name": "14 Player Win",
+     "text": "/clap motion\n/p ◆ <t> defeats the house! <se.1>",
+     "title": "Player Win"
+    },
+    {
+     "after": "",
+     "before": "",
+     "code": "15",
+     "id": "m15",
+     "name": "15 Player Loss",
+     "text": "/facepalm motion\n/p ◆ The house claims this hand. <t> falls short of the dealer. <se.11>",
+     "title": "Player Loss"
+    },
+    {
+     "after": "",
+     "before": "",
+     "code": "16",
+     "id": "m16",
+     "name": "16 Push",
+     "text": "/thumbsup motion\n/p ◆ The Fates find balance. <t> ties with the dealer. <wait.1>\n/p ☀ PUSH — the original wager remains. <se.3>",
+     "title": "Push"
+    },
+    {
+     "after": "Return to Macro Set (01) to begin the next round.",
+     "before": "",
+     "code": "17",
+     "id": "m17",
+     "name": "17 Round Complete",
+     "text": "/em gathers the cards and prepares the table for another game beneath Apollo's watch.\n/p ☀ The Fates have spoken. This round is complete. <wait.1>\n/p ◆ Thank you for playing. A new round will begin shortly. <se.8>",
+     "title": "Round Complete"
+    }
+   ]
+  }
+ },
+ "reception": [],
+ "raffle": [],
+ "hr": [
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Goddess",
+   "missed": 0,
+   "name": "Calypso Drake",
+   "order": 1,
+   "paid": false,
+   "status": "Full Time",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e001"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Owner",
+   "missed": 0,
+   "name": "Odysseus Drake",
+   "order": 2,
+   "paid": false,
+   "status": "Full Time",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e002"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Co Owner",
+   "missed": 0,
+   "name": "Masaki Michishige",
+   "order": 3,
+   "paid": false,
+   "status": "Full Time",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e003"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Co Owner",
+   "missed": 0,
+   "name": "Eris Strife",
+   "order": 4,
+   "paid": false,
+   "status": "Full Time",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e004"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Co Owner",
+   "missed": 0,
+   "name": "Mother Mavis",
+   "order": 5,
+   "paid": false,
+   "status": "Full Time",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e005"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Co Owner",
+   "missed": 0,
+   "name": "Sammie Amariyo",
+   "order": 6,
+   "paid": false,
+   "status": "Full Time",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e006"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Manager",
+   "missed": 0,
+   "name": "Maria Baker",
+   "order": 7,
+   "paid": false,
+   "status": "Full Time",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e007"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Manager",
+   "missed": 0,
+   "name": "Krahl Dahros",
+   "order": 8,
+   "paid": false,
+   "status": "Full Time",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e008"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Manager",
+   "missed": 0,
+   "name": "Ivix Trulaut",
+   "order": 9,
+   "paid": false,
+   "status": "Full Time",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e009"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Manager",
+   "missed": 1,
+   "name": "Artemis Regalis",
+   "order": 10,
+   "paid": false,
+   "status": "Full Time",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e010"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Asst. Manager",
+   "missed": 0,
+   "name": "L'hira Guildford",
+   "order": 11,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e011"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Asst. Manager",
+   "missed": 0,
+   "name": "Veryl Moonlight",
+   "order": 12,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e012"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Asst. Manager",
+   "missed": 0,
+   "name": "Miss Vevica",
+   "order": 13,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e013"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "DJ",
+   "missed": 0,
+   "name": "Severine",
+   "order": 14,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e014"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "DJ",
+   "missed": 0,
+   "name": "DJ Bunny",
+   "order": 15,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e015"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Photographer",
+   "missed": 0,
+   "name": "Zoey Summers",
+   "order": 16,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e016"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Photographer",
+   "missed": 0,
+   "name": "Skaes Ashura",
+   "order": 17,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e017"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Photographer",
+   "missed": 0,
+   "name": "L'nara Steele",
+   "order": 18,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e018"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Fortune Teller",
+   "missed": 0,
+   "name": "Whisper Obsidian",
+   "order": 19,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e019"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Bouncer",
+   "missed": 0,
+   "name": "Drehardt Thewall",
+   "order": 20,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e020"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Bouncer",
+   "missed": 0,
+   "name": "Lynaline Ranger",
+   "order": 21,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e021"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Bartender",
+   "missed": 0,
+   "name": "Lilja Hosnes",
+   "order": 22,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e022"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Bartender",
+   "missed": 1,
+   "name": "Galatea",
+   "order": 23,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e023"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Bartender",
+   "missed": 0,
+   "name": "Kalene Eira",
+   "order": 24,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e024"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Bartender",
+   "missed": 0,
+   "name": "Arcadia Sorna",
+   "order": 25,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e025"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Bartender",
+   "missed": 0,
+   "name": "Soku Arai",
+   "order": 26,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e026"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Dealer",
+   "missed": 0,
+   "name": "Arisu Mei",
+   "order": 27,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e027"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Dealer",
+   "missed": 0,
+   "name": "taglio",
+   "order": 28,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e028"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Receptionist",
+   "missed": 0,
+   "name": "Val Lewd",
+   "order": 29,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e029"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Receptionist",
+   "missed": 0,
+   "name": "Erin'dua Faeriefire",
+   "order": 30,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e030"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Host",
+   "missed": 0,
+   "name": "Vox Mortis",
+   "order": 31,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e031"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Host",
+   "missed": 0,
+   "name": "Agust'D",
+   "order": 32,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e032"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Dancer",
+   "missed": 0,
+   "name": "Alys Sylvus",
+   "order": 33,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e033"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Dancer",
+   "missed": 0,
+   "name": "Chomu Dreyar",
+   "order": 34,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e034"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Dancer",
+   "missed": 0,
+   "name": "Joestar Star",
+   "order": 35,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e035"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Dancer",
+   "missed": 0,
+   "name": "Kaety Laine",
+   "order": 36,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e036"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Dancer",
+   "missed": 0,
+   "name": "Banana Bread (Bojan)",
+   "order": 37,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e037"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Dancer",
+   "missed": 0,
+   "name": "Crimson Phoenix",
+   "order": 38,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e038"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Dancer",
+   "missed": 0,
+   "name": "Nyv",
+   "order": 39,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e039"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Dancer",
+   "missed": 0,
+   "name": "Roxanne Violet",
+   "order": 40,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e040"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Dancer",
+   "missed": 0,
+   "name": "M'aomao monsta",
+   "order": 41,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e041"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Dancer",
+   "missed": 0,
+   "name": "Yko Mortis",
+   "order": 42,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e042"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Dancer",
+   "missed": 0,
+   "name": "Lynn Renae",
+   "order": 43,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e043"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Dancer",
+   "missed": 0,
+   "name": "Kaelith Rahz",
+   "order": 44,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e044"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Dancer",
+   "missed": 0,
+   "name": "Y'uze",
+   "order": 45,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e045"
+  },
+  {
+   "clockIn": false,
+   "clockOut": false,
+   "job": "Dancer",
+   "missed": 0,
+   "name": "Eleri Izumi",
+   "order": 46,
+   "paid": false,
+   "status": "",
+   "timeIn": null,
+   "timeOut": null,
+   "id": "e046"
+  }
+ ],
+ "bans": [
+  {
+   "by": "Masaki Michishige",
+   "date": "2022-09-14",
+   "legacy": true,
+   "logged": true,
+   "name": "Tammy Griddles",
+   "notes": "Masaki Witnessed First Hand, & Dealt with them Personally",
+   "order": 1,
+   "proof": "N/A",
+   "reason": "Non-Compliant",
+   "id": "l001"
+  },
+  {
+   "by": "Masaki Michishige",
+   "date": "2022-09-14",
+   "legacy": true,
+   "logged": true,
+   "name": "Big'guy For'you",
+   "notes": "Masaki Witnessed First Hand, & Dealt with them Personally",
+   "order": 2,
+   "proof": "N/A",
+   "reason": "Non-Compliant",
+   "id": "l002"
+  },
+  {
+   "by": "Masaki Michishige",
+   "date": "2022-09-14",
+   "legacy": true,
+   "logged": true,
+   "name": "Gobbl'n Deeznuts",
+   "notes": "Masaki Witnessed First Hand, & Dealt with them Personally",
+   "order": 3,
+   "proof": "N/A",
+   "reason": "Non-Compliant",
+   "id": "l003"
+  },
+  {
+   "by": "Masaki Michishige",
+   "date": "2022-09-14",
+   "legacy": true,
+   "logged": true,
+   "name": "Likhron",
+   "notes": "Masaki Witnessed First Hand, & Dealt with them Personally",
+   "order": 4,
+   "proof": "N/A",
+   "reason": "Non-Compliant",
+   "id": "l004"
+  },
+  {
+   "by": "Masaki Michishige",
+   "date": "2022-09-14",
+   "legacy": true,
+   "logged": true,
+   "name": "Aldous Ackerman Mateus",
+   "notes": "Masaki Witnessed First Hand, & Dealt with them Personally",
+   "order": 5,
+   "proof": "N/A",
+   "reason": "Non-Compliant",
+   "id": "l005"
+  },
+  {
+   "by": "Masaki Michishige",
+   "date": "2022-09-14",
+   "legacy": true,
+   "logged": true,
+   "name": "Vossler Legault Stalker",
+   "notes": "Masaki Witnessed First Hand, & Dealt with them Personally",
+   "order": 6,
+   "proof": "N/A",
+   "reason": "Non-Compliant",
+   "id": "l006"
+  },
+  {
+   "by": "Masaki Michishige",
+   "date": "2022-09-14",
+   "legacy": true,
+   "logged": true,
+   "name": "Zaraki Stigmas",
+   "notes": "Masaki Witnessed First Hand, & Dealt with them Personally",
+   "order": 7,
+   "proof": "N/A",
+   "reason": "Non-Compliant",
+   "id": "l007"
+  },
+  {
+   "by": "Masaki Michishige",
+   "date": "2022-09-14",
+   "legacy": true,
+   "logged": true,
+   "name": "Health Slater",
+   "notes": "Masaki Witnessed First Hand, & Dealt with them Personally",
+   "order": 8,
+   "proof": "N/A",
+   "reason": "Non-Compliant",
+   "id": "l008"
+  },
+  {
+   "by": "Masaki Michishige",
+   "date": "2022-09-14",
+   "legacy": true,
+   "logged": true,
+   "name": "Charity Ogino",
+   "notes": "Masaki Witnessed First Hand, & Dealt with them Personally",
+   "order": 9,
+   "proof": "N/A",
+   "reason": "Non-Compliant",
+   "id": "l009"
+  },
+  {
+   "by": "Mizu Durak",
+   "date": "2022-08-21",
+   "legacy": true,
+   "logged": true,
+   "name": "Rouini Nightwind",
+   "notes": "Masaki also has proof as well as a few other staff members",
+   "order": 10,
+   "proof": "Yes",
+   "reason": "Staff Harassment",
+   "id": "l010"
+  },
+  {
+   "by": "Mizu Durak",
+   "date": "2022-09-25",
+   "legacy": true,
+   "logged": true,
+   "name": "Ortolf Outlawe",
+   "notes": "Masami input the prove of insitend via discord dm",
+   "order": 11,
+   "proof": "Yes",
+   "reason": "Staff Harassment",
+   "id": "l011"
+  },
+  {
+   "by": "Eris Strife",
+   "date": "2022-10-09",
+   "legacy": true,
+   "logged": true,
+   "name": "Syan Atona",
+   "notes": "Repeatedly ignored commands to cease behavior.  Mizu can elaborate later.",
+   "order": 12,
+   "proof": "Yes",
+   "reason": "Non-Compliant",
+   "id": "l012"
+  },
+  {
+   "by": "Mizu Durak",
+   "date": "2022-10-09",
+   "legacy": true,
+   "logged": true,
+   "name": "Neioyne Sahri",
+   "notes": "Mizu and Bouncer Team see them trolling.",
+   "order": 13,
+   "proof": "N/A",
+   "reason": "Non-Compliant",
+   "id": "l013"
+  },
+  {
+   "by": "Mizu Durak",
+   "date": "2022-10-09",
+   "legacy": true,
+   "logged": true,
+   "name": "Avis Wings",
+   "notes": "Mizu and Bouncer Team see them trolling.",
+   "order": 14,
+   "proof": "N/A",
+   "reason": "Non-Compliant",
+   "id": "l014"
+  },
+  {
+   "by": "Mizu Durak",
+   "date": "2022-10-09",
+   "legacy": true,
+   "logged": true,
+   "name": "Rebecca La'fortuna",
+   "notes": "Mizu and Bouncer Team see them trolling.",
+   "order": 15,
+   "proof": "N/A",
+   "reason": "Non-Compliant",
+   "id": "l015"
+  },
+  {
+   "by": "Mizu Durak",
+   "date": "2022-10-09",
+   "legacy": true,
+   "logged": true,
+   "name": "Jthing",
+   "notes": "Mizu and Bouncer Team see them trolling.",
+   "order": 16,
+   "proof": "N/A",
+   "reason": "Non-Compliant",
+   "id": "l016"
+  },
+  {
+   "by": "Masaki Michishige",
+   "date": "2022-10-30",
+   "legacy": true,
+   "logged": true,
+   "name": "Shira#0669 (Discord Name)",
+   "notes": "Picture Proof has been acquired and shown",
+   "order": 17,
+   "proof": "Yes",
+   "reason": "Staff Harassment",
+   "id": "l017"
+  },
+  {
+   "by": "Mizu Durak",
+   "date": "2022-10-30",
+   "legacy": true,
+   "logged": true,
+   "name": "Snow Zaubere",
+   "notes": "I talk to them I and DC'd losing the pics",
+   "order": 18,
+   "proof": "N/A",
+   "reason": "Non-Compliant",
+   "id": "l018"
+  },
+  {
+   "by": "Mizu Durak",
+   "date": "2022-10-30",
+   "legacy": true,
+   "logged": true,
+   "name": "Moonclaw",
+   "notes": "I talk to them I and DC'd losing the pics",
+   "order": 19,
+   "proof": "N/A",
+   "reason": "Non-Compliant",
+   "id": "l019"
+  },
+  {
+   "by": "Mizu Durak",
+   "date": "2022-10-30",
+   "legacy": true,
+   "logged": true,
+   "name": "Rock KIllingsworh",
+   "notes": "I talk to them I and DC'd losing the pics",
+   "order": 20,
+   "proof": "N/A",
+   "reason": "Non-Compliant",
+   "id": "l020"
+  },
+  {
+   "by": "Masaki Michishige",
+   "date": "2022-11-01",
+   "legacy": true,
+   "logged": true,
+   "name": "Yoshihira Minamoto",
+   "notes": "Mizu can explain, Since this has happened via personal experience.",
+   "order": 21,
+   "proof": "Yes",
+   "reason": "Staff Harassment",
+   "id": "l021"
+  },
+  {
+   "by": "Mizu Durak",
+   "date": "2022-11-13",
+   "legacy": true,
+   "logged": true,
+   "name": "Devran Kaine",
+   "notes": "Mizu Witness Frist Hand & Deal with them Personaly",
+   "order": 22,
+   "proof": "Yes",
+   "reason": "Staff Harassment",
+   "id": "l022"
+  },
+  {
+   "by": "Eris Strife",
+   "date": "2023-08-20",
+   "legacy": true,
+   "logged": true,
+   "name": "Cyber Chad",
+   "notes": "Trolling",
+   "order": 23,
+   "proof": "No",
+   "reason": "Public Nudity",
+   "id": "l023"
+  },
+  {
+   "by": "Eris Strife",
+   "date": "2023-08-20",
+   "legacy": true,
+   "logged": true,
+   "name": "Stryk Cronkers",
+   "notes": "Trolling",
+   "order": 24,
+   "proof": "No",
+   "reason": "Non-Compliant",
+   "id": "l024"
+  },
+  {
+   "by": "Eris Strife",
+   "date": "2023-08-20",
+   "legacy": true,
+   "logged": true,
+   "name": "Mariossss dent",
+   "notes": "Trolling",
+   "order": 25,
+   "proof": "No",
+   "reason": "Non-Compliant",
+   "id": "l025"
+  },
+  {
+   "by": "Masaki Michishige",
+   "date": "2023-08-20",
+   "legacy": true,
+   "logged": true,
+   "name": "Taco Rocka",
+   "notes": "Trolling",
+   "order": 26,
+   "proof": "No",
+   "reason": "Non-Compliant",
+   "id": "l026"
+  }
+ ],
+ "vips": [
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 1,
+   "photo": false,
+   "player": "",
+   "start": "2024-04-08",
+   "status": "VIP",
+   "id": "v001"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 2,
+   "photo": false,
+   "player": "",
+   "start": "2024-03-03",
+   "status": "VIP",
+   "id": "v002"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 3,
+   "photo": false,
+   "player": "",
+   "start": "2024-04-07",
+   "status": "VIP",
+   "id": "v003"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 4,
+   "photo": false,
+   "player": "",
+   "start": "2024-05-05",
+   "status": "VIP",
+   "id": "v004"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 5,
+   "photo": false,
+   "player": "",
+   "start": "2024-05-19",
+   "status": "VIP",
+   "id": "v005"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 6,
+   "photo": false,
+   "player": "",
+   "start": "2024-05-19",
+   "status": "VIP",
+   "id": "v006"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 7,
+   "photo": false,
+   "player": "",
+   "start": "2025-06-08",
+   "status": "VIP",
+   "id": "v007"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 8,
+   "photo": false,
+   "player": "",
+   "start": "2024-05-19",
+   "status": "VIP",
+   "id": "v008"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 9,
+   "photo": false,
+   "player": "",
+   "start": "2024-06-09",
+   "status": "VIP",
+   "id": "v009"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 10,
+   "photo": false,
+   "player": "",
+   "start": "2024-06-02",
+   "status": "VIP",
+   "id": "v010"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 11,
+   "photo": false,
+   "player": "",
+   "start": "2024-08-04",
+   "status": "VIP",
+   "id": "v011"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 12,
+   "photo": false,
+   "player": "",
+   "start": "2024-09-15",
+   "status": "VIP",
+   "id": "v012"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 13,
+   "photo": false,
+   "player": "",
+   "start": "2024-09-22",
+   "status": "VIP",
+   "id": "v013"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 6,
+   "order": 14,
+   "photo": false,
+   "player": "",
+   "start": "2025-01-19",
+   "status": "VIP",
+   "id": "v014"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 15,
+   "photo": false,
+   "player": "",
+   "start": "2024-10-13",
+   "status": "VIP",
+   "id": "v015"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 3,
+   "order": 16,
+   "photo": false,
+   "player": "",
+   "start": "2025-08-17",
+   "status": "VIP",
+   "id": "v016"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 3,
+   "order": 17,
+   "photo": false,
+   "player": "",
+   "start": "2024-11-03",
+   "status": "VIP",
+   "id": "v017"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 18,
+   "photo": false,
+   "player": "",
+   "start": "2024-11-10",
+   "status": "VIP",
+   "id": "v018"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 19,
+   "photo": false,
+   "player": "",
+   "start": "2024-12-08",
+   "status": "VIP",
+   "id": "v019"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 3,
+   "order": 20,
+   "photo": false,
+   "player": "",
+   "start": "2025-03-02",
+   "status": "VIP",
+   "id": "v020"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 21,
+   "photo": false,
+   "player": "",
+   "start": "2025-02-16",
+   "status": "VIP",
+   "id": "v021"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 3,
+   "order": 22,
+   "photo": false,
+   "player": "",
+   "start": "2025-02-23",
+   "status": "VIP",
+   "id": "v022"
+  },
+  {
+   "booking": false,
+   "boost": true,
+   "discord": "",
+   "months": null,
+   "order": 23,
+   "photo": false,
+   "player": "",
+   "start": "2025-04-14",
+   "status": "VIP",
+   "id": "v023"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 24,
+   "photo": false,
+   "player": "",
+   "start": "2025-06-01",
+   "status": "VIP",
+   "id": "v024"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 1,
+   "order": 25,
+   "photo": false,
+   "player": "",
+   "start": "2025-06-08",
+   "status": "VIP",
+   "id": "v025"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 1,
+   "order": 26,
+   "photo": false,
+   "player": "",
+   "start": "2025-06-08",
+   "status": "VIP",
+   "id": "v026"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 3,
+   "order": 27,
+   "photo": false,
+   "player": "",
+   "start": "2025-06-08",
+   "status": "VIP",
+   "id": "v027"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 28,
+   "photo": false,
+   "player": "",
+   "start": "2025-06-08",
+   "status": "VIP",
+   "id": "v028"
+  },
+  {
+   "booking": false,
+   "boost": true,
+   "discord": "",
+   "months": 1,
+   "order": 29,
+   "photo": false,
+   "player": "",
+   "start": "2025-06-22",
+   "status": "VIP",
+   "id": "v029"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 30,
+   "photo": false,
+   "player": "",
+   "start": "2025-08-10",
+   "status": "VIP",
+   "id": "v030"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 1,
+   "order": 31,
+   "photo": false,
+   "player": "",
+   "start": "2025-08-24",
+   "status": "VIP",
+   "id": "v031"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 32,
+   "photo": false,
+   "player": "",
+   "start": "2025-09-14",
+   "status": "VIP",
+   "id": "v032"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 12,
+   "order": 33,
+   "photo": false,
+   "player": "",
+   "start": "2025-09-21",
+   "status": "VIP",
+   "id": "v033"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": 6,
+   "order": 34,
+   "photo": false,
+   "player": "",
+   "start": "2025-10-05",
+   "status": "VIP",
+   "id": "v034"
+  },
+  {
+   "booking": false,
+   "boost": false,
+   "discord": "",
+   "months": null,
+   "order": 35,
+   "photo": false,
+   "player": "",
+   "start": "",
+   "status": "VIP",
+   "id": "v035"
+  }
+ ],
+ "nights": []
+}

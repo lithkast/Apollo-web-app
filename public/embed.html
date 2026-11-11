@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>About | Apollo Night Club and Casino</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Marcellus&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style id="picstyle"></style>
+<style>
+/* v2.18: one person's About box, on its own, for an Embed element on a Carrd: apolloncc.org/embed/<their id>.
+   ?theme=light for the light colours. It tells the Carrd page how tall it is, so the box fits what is in it. */
+:root{
+  --ink:#ECE9E0;--muted:#A3A9C6;--gold:#E2B95F;
+  --box-bg:radial-gradient(70% 150px at 50% 0,rgba(226,185,95,.15),transparent),linear-gradient(180deg,#141933,#0B0E20);
+  --box-edge:rgba(226,185,95,.62);--box-frame:#0B0E20;--box-hair:rgba(255,255,255,.13);
+  --box-key:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='12' viewBox='0 0 16 12'%3E%3Cpath d='M0 .75H16M0 11.25H16M2.5 11.25V3.5H11.5V9H6V6H9' fill='none' stroke='%23E2B95F' stroke-width='1.2'/%3E%3C/svg%3E");
+  --bio-gold:#E2B95F;--bio-rose:#F29AB0;--bio-red:#F07A7A;--bio-orange:#F4A261;--bio-green:#6FCF97;--bio-teal:#5FD3C9;--bio-blue:#7FB2F0;--bio-purple:#B39DF5;--bio-pink:#F5A3E6;--bio-grey:#A3A9C6;
+}
+:root[data-theme="light"]{
+  --ink:#161A33;--muted:#565C76;--gold:#8A600E;
+  --box-bg:radial-gradient(70% 150px at 50% 0,rgba(184,134,42,.12),transparent),linear-gradient(180deg,#FFFFFF,#FBF7EE);
+  --box-edge:rgba(184,134,42,.62);--box-frame:#FFFFFF;--box-hair:rgba(184,134,42,.3);
+  --box-key:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='12' viewBox='0 0 16 12'%3E%3Cpath d='M0 .75H16M0 11.25H16M2.5 11.25V3.5H11.5V9H6V6H9' fill='none' stroke='%23B8862A' stroke-width='1.2'/%3E%3C/svg%3E");
+  --bio-gold:#8A600E;--bio-rose:#B0305A;--bio-red:#B42828;--bio-orange:#B5560F;--bio-green:#1E7A47;--bio-teal:#0F7A72;--bio-blue:#1F5FB0;--bio-purple:#6A3FB5;--bio-pink:#A2308E;--bio-grey:#565C76;
+}
+html,body{margin:0;padding:0;background:transparent}
+/* v2.22: the Carrd sizes this frame to fit, so it never needs a scrollbar of its own; one that came and went would
+   change the width, and so the height, again and again */
+html{scrollbar-width:none}html::-webkit-scrollbar{display:none}
+body{font:15px/1.6 'Hanken Grotesk',system-ui,sans-serif;color:var(--ink);overflow-wrap:anywhere}
+#about{padding:1px 0}
+.box{position:relative;margin:0;padding:40px 22px 38px;border:1px solid var(--box-edge);border-radius:16px;background:var(--box-bg);box-shadow:inset 0 0 0 4px var(--box-frame),inset 0 0 0 5px var(--box-hair)}
+.box::before,.box::after{content:"";position:absolute;left:14px;right:14px;height:10px;pointer-events:none;background:var(--box-key) repeat-x left center/auto 10px;opacity:.85}
+.box::before{top:14px}.box::after{bottom:14px}
+.box h3{margin:0 0 12px;font:600 17px/1.35 Cinzel,Marcellus,Georgia,serif;font-variant-caps:all-small-caps;letter-spacing:.14em;color:var(--ink)}
+.bio{white-space:pre-wrap;line-height:1.55}
+.note{margin:0;color:var(--muted);font-style:italic}
+.full{display:block;margin:8px 4px 0 auto;width:max-content;font-size:13px;color:var(--gold);text-decoration:none}
+.full:hover{text-decoration:underline}
+/* A frame is see-through only while its page's colour scheme matches the element it is in. This page keeps the
+   usual one, as the Carrd page does; the frame with someone's own code is told the one its page uses. */
+.codeframe{display:block;width:100%;border:0;background:transparent;color-scheme:dark}
+/* v2.22: a staff section's tiles, in the Carrd's black and gold */
+/* the tiles sit centred, as the Carrd's sections are; the open card takes a whole line under its tile's row */
+.team{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-start;gap:14px}
+.tile{flex:0 1 172px;display:flex;flex-direction:column;align-items:center;gap:8px;min-width:0;padding:20px 12px 16px;border:2px solid rgba(226,185,95,.7);border-radius:16px;
+  background:radial-gradient(90% 60% at 50% 0,rgba(226,185,95,.14),transparent 70%),#000;color:#fff;font:inherit;text-align:center;cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.tile:hover,.tile[aria-expanded="true"]{border-color:#E2B95F;box-shadow:0 0 22px rgba(226,185,95,.28)}
+.tile:focus-visible,.shut:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.ava{display:block;width:92px;height:92px;border-radius:50%;object-fit:cover;object-position:50% 25%;box-shadow:0 0 0 3px #000,0 0 0 4px #E2B95F}
+.initials{display:grid;place-items:center;background:#111;color:#E2B95F;font:600 30px/1 Cinzel,Georgia,serif}
+.nm{max-width:100%;font:600 16px/1.25 Cinzel,Georgia,serif;color:#F7E3A6;overflow-wrap:normal}
+.jb{max-width:100%;font:500 10.5px/1.4 Cinzel,Georgia,serif;letter-spacing:.16em;text-transform:uppercase;color:#E2B95F}
+.opened{flex:0 0 100%;min-width:0}
+.openrow{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:12px;margin:8px 4px 4px}
+.openrow .full{margin:0}
+.shut{padding:6px 14px;border:1px solid rgba(226,185,95,.7);border-radius:999px;background:#000;color:#F7E3A6;font:500 13px/1 'Hanken Grotesk',system-ui,sans-serif;cursor:pointer}
+.shut:hover{border-color:#E2B95F}
+.casino{container-type:inline-size}
+.games{display:grid;gap:26px}
+.gameslot{display:flex;flex-direction:column;min-width:0}
+.gameslot>iframe{flex:1 0 auto}
+@container (min-width:860px){.games:has(>.gameslot+.gameslot){grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tdiv{display:flex;align-items:center;gap:12px;max-width:560px;margin:22px auto}
+.tdiv::before,.tdiv::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(226,185,95,.8))}
+.tdiv::after{background:linear-gradient(270deg,transparent,rgba(226,185,95,.8))}
+.tdiv i{width:8px;height:8px;border:1px solid #E2B95F;transform:rotate(45deg)}
+.teamnone{margin:0;padding:10px;text-align:center;color:#A3A9C6;font-style:italic}
+@media (max-width:420px){.team{gap:10px}.tile{flex-basis:calc(50% - 5px)}.ava{width:72px;height:72px}.nm{font-size:14px}}
+:root[data-theme="light"] .codeframe{color-scheme:light}
+/* bios: the formats, as on the site */
+.bl{min-height:1.2em}.bc{text-align:center}
+.bsize-s{font-size:.85em}.bsize-l{font-size:1.3em;line-height:1.35}.bsize-xl{font-size:1.75em;line-height:1.25}
+.bfont-marcellus{font-family:Marcellus,Georgia,serif}.bfont-cinzel{font-family:Cinzel,Georgia,serif}.bfont-playfair{font-family:"Playfair Display",Georgia,serif}
+.bfont-dancing{font-family:"Dancing Script",cursive;font-size:1.15em}.bfont-vibes{font-family:"Great Vibes",cursive;font-size:1.3em}.bfont-mono{font-family:"Courier New",Courier,monospace}
+.bcol-gold{color:var(--bio-gold)}.bcol-rose{color:var(--bio-rose)}.bcol-red{color:var(--bio-red)}.bcol-orange{color:var(--bio-orange)}.bcol-green{color:var(--bio-green)}
+.bcol-teal{color:var(--bio-teal)}.bcol-blue{color:var(--bio-blue)}.bcol-purple{color:var(--bio-purple)}.bcol-pink{color:var(--bio-pink)}.bcol-grey{color:var(--bio-grey)}
+</style>
+</head>
+<body>
+<div id="about" aria-live="polite"></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+(() => {
+'use strict';
+const FIREBASE_CONFIG = {
+  apiKey: 'AIzaSyCkp9nMJbVCEpO_OmF5Pcp6nhbjkRXMB4c',
+  authDomain: 'apollohr-9b84f.firebaseapp.com',
+  projectId: 'apollohr-9b84f',
+  storageBucket: 'apollohr-9b84f.firebasestorage.app',
+  messagingSenderId: '765558273478',
+  appId: '1:765558273478:web:c63ed8fe88237030c12ec7'
+};
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+
+const cardName = p => String(p.username || '').trim() || String(p.name || '').trim() || (p.role === 'admin' ? 'Administrator' : 'No name yet');
+
+const BIO_COLORS = [['gold', 'Gold'], ['rose', 'Rose'], ['red', 'Red'], ['orange', 'Orange'], ['green', 'Green'], ['teal', 'Teal'], ['blue', 'Blue'], ['purple', 'Purple'], ['pink', 'Pink'], ['grey', 'Grey']];
+let bioFontsAsked = false;
+function loadBioFonts() {
+  if (bioFontsAsked) return; bioFontsAsked = true;
+  const l = document.createElement('link'); l.rel = 'stylesheet';
+  l.href = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Dancing+Script:wght@400;700&family=Great+Vibes&display=swap';
+  document.head.appendChild(l);
+}
+function bioParse(src) {
+  const st = {b: 0, i: 0, u: 0, s: 0, center: 0, color: [], font: [], size: []}, lines = [];
+  let cur = {center: false, runs: []}; lines.push(cur);
+  const top = a => { for (let k = a.length - 1; k >= 0; k--) if (a[k]) return a[k]; return null; };
+  const add = t => {
+    if (!t) return; if (st.center) cur.center = true;
+    const f = {b: st.b > 0, i: st.i > 0, u: st.u > 0, s: st.s > 0, color: top(st.color), font: top(st.font), size: top(st.size)}, last = cur.runs[cur.runs.length - 1];
+    if (last && JSON.stringify(last.f) === JSON.stringify(f)) last.t += t; else cur.runs.push({t, f});
+  };
+  const re = /\\([\\[])|\[(\/?)(b|i|u|s|color|font|size|center)(?:=([#\w-]{1,20}))?\]|\n/g;
+  let at = 0, m;
+  src = String(src || '');
+  while ((m = re.exec(src))) {
+    add(src.slice(at, m.index)); at = re.lastIndex;
+    if (m[1]) { add(m[1]); continue; }
+    if (m[0] === '\n') { cur = {center: st.center > 0, runs: []}; lines.push(cur); continue; }
+    const close = m[2] === '/', tag = m[3];
+    if (tag === 'b' || tag === 'i' || tag === 'u' || tag === 's' || tag === 'center') { st[tag] = Math.max(0, st[tag] + (close ? -1 : 1)); if (tag === 'center' && !close) cur.center = true; continue; }
+    if (close) { st[tag].pop(); continue; }
+    st[tag].push(tag === 'color' ? bioColor(m[4]) : tag === 'font' ? bioKey(BIO_FONTS, m[4]) : bioKey(BIO_SIZES, m[4]) === 'n' ? null : bioKey(BIO_SIZES, m[4]));
+  }
+  add(src.slice(at));
+  return lines;
+}
+function bioRunHtml({t, f}) {
+  let h = esc(t);
+  if (f.s) h = `<s>${h}</s>`; if (f.u) h = `<u>${h}</u>`; if (f.i) h = `<i>${h}</i>`; if (f.b) h = `<b>${h}</b>`;
+  if (f.color) h = f.color[0] === '#' ? `<span style="color:${f.color}">${h}</span>` : `<span class="bcol-${f.color}">${h}</span>`;
+  if (f.size) h = `<span class="bsize-${f.size}">${h}</span>`;
+  if (f.font) h = `<span class="bfont-${f.font}">${h}</span>`;
+  return h;
+}
+const bioHtml = src => bioParse(src).map(l => `<div class="bl${l.center ? ' bc' : ''}">${l.runs.length ? l.runs.map(bioRunHtml).join('') : '<br>'}</div>`).join('');
+
+const BIO_FONTS = [['marcellus', 'Marcellus'], ['cinzel', 'Cinzel'], ['playfair', 'Playfair Display'], ['dancing', 'Dancing Script'], ['vibes', 'Great Vibes'], ['mono', 'Typewriter']];
+const BIO_SIZES = [['s', 'Small', 2], ['n', 'Normal', 3], ['l', 'Large', 5], ['xl', 'Huge', 6]];
+const bioKey = (list, v) => list.some(([k]) => k === v) ? v : null;
+const bioColor = v => bioKey(BIO_COLORS, v) || (/^#[0-9a-f]{6}$/i.test(v || '') ? v.toLowerCase() : null);
+
+const slugify = v => String(v || '').normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/['‘’`]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
+function slugMap(list, nameOf) {
+  const base = new Map(), n = {};
+  for (const x of list) { const b = slugify(nameOf(x)); base.set(x.id, b); if (b) n[b] = (n[b] || 0) + 1; }
+  const out = new Map();
+  for (const x of list) { const b = base.get(x.id); out.set(x.id, b && n[b] === 1 ? b : (b ? b + '-' : '') + slugify(x.id).slice(0, 8)); }
+  return out;
+}
+
+const FRAME_NONCE = (() => { const a = new Uint8Array(16); crypto.getRandomValues(a); return [...a].map(x => x.toString(16).padStart(2, '0')).join(''); })();
+const codeClean = s => String(s || '').replace(/<meta\b[^>]*>/gi, '').replace(/<base\b[^>]*>/gi, '');
+function frameDoc(code) {
+  const dark = themeNow() === 'dark', ink = dark ? '#ECE9E0' : '#161A33', gold = dark ? '#E2B95F' : '#8A600E';
+  const csp = `default-src 'none'; img-src https: data: blob:; media-src https: data: blob:; style-src 'unsafe-inline' https:; font-src https: data:; script-src 'nonce-${FRAME_NONCE}'; form-action 'none'; base-uri 'none'`;
+  // v2.28: the height is measured with data-apollo-measure set, so a card that stretches to fill its frame (a game's,
+  // beside a taller one) still reports its own height, and can shrink again
+  const fit = "document.addEventListener('DOMContentLoaded',()=>{const b=document.body,d=document.documentElement,send=()=>{d.setAttribute('data-apollo-measure','');const r=b.getBoundingClientRect(),m=parseFloat(getComputedStyle(b).marginBottom)||0,h=Math.ceil(Math.max(b.scrollHeight,r.bottom+scrollY+m));d.removeAttribute('data-apollo-measure');parent.postMessage({apolloFrame:1,h},'*')};new ResizeObserver(send).observe(b);addEventListener('load',send);send()});"
+    + "document.addEventListener('click',e=>{const a=e.target.closest&&e.target.closest('a[href],area[href]');if(!a)return;const h=a.getAttribute('href');"
+    + "if(h[0]==='#'){e.preventDefault();const id=decodeURIComponent(h.slice(1)),t=id?document.getElementById(id)||document.getElementsByName(id)[0]:document.body;if(t)t.scrollIntoView({behavior:'smooth'});return}a.target='_blank'},true);";
+  return `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="${csp}"><meta name="viewport" content="width=device-width,initial-scale=1">`
+    + `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">`
+    + `<style>:root{color-scheme:${dark ? 'dark' : 'light'}}html,body{margin:0;padding:0;background:transparent}html{scrollbar-width:none}html::-webkit-scrollbar{display:none}body{font:15px/1.55 'Hanken Grotesk',system-ui,sans-serif;color:${ink};overflow-wrap:anywhere}img,video{max-width:100%;height:auto}a{color:${gold}}h1,h2,h3,h4{font-family:Marcellus,Georgia,serif;font-weight:400;line-height:1.2}</style>`
+    + `<script nonce="${FRAME_NONCE}">${fit}<\/script></head><body>${codeClean(code)}</body></html>`;
+}
+
+const cardCode = p => typeof (p && p.code) === 'string' ? p.code : '';
+const cardBio = p => typeof (p && p.bio) === 'string' ? p.bio.trim() : '';
+const ACARD_KEYS = ['eyebrow', 'name', 'title', 'role', 'age', 'race', 'gender', 'deity', 'rp', 'text', 'quote', 'quoteBy'];
+const ACARD_MAX = {eyebrow: 60, name: 60, title: 140, role: 100, age: 40, race: 80, gender: 40, deity: 80, rp: 240, text: 8000, quote: 800, quoteBy: 60};
+const bioToCardText = bio => bioParse(bio).map(l => l.runs.map(r => r.f.b && r.t.trim() ? `*${r.t}*` : r.t).join('')).join('\n').trim();
+function cardMarks(el) {
+  let s = '';
+  const sp = x => x.replace(/\s+/g, ' ');
+  for (const n of el.childNodes) {
+    if (n.nodeType === 3) { s += sp(n.textContent); continue; }
+    if (n.nodeType !== 1) continue;
+    const t = n.tagName, inner = sp(n.textContent).trim();
+    s += t === 'BR' ? '\n' : !inner ? '' : t === 'B' || t === 'STRONG' ? `**${inner}**` : t === 'EM' || t === 'I' ? `*${inner}*` : inner;
+  }
+  return s.replace(/ *\n */g, '\n').trim();
+}
+function cardFromCode(code) {
+  if (!code || !/<h1[\s>]/i.test(code) || typeof DOMParser !== 'function') return null;
+  let d; try { d = new DOMParser().parseFromString(code, 'text/html'); } catch { return null; }
+  const t = sel => { const e = d.querySelector(sel); return e ? e.textContent.replace(/\s+/g, ' ').trim() : ''; };
+  const name = t('h1'); if (!name) return null;
+  const f = {eyebrow: t('header .eyebrow'), name, title: t('header .title')};
+  const LABELS = {role: 'role', age: 'age', race: 'race', gender: 'gender', 'deity inspiration': 'deity', deity: 'deity', 'rp preference': 'rp', rp: 'rp'};
+  for (const dt of d.querySelectorAll('dt, .k')) {
+    const k = LABELS[dt.textContent.replace(/\s+/g, ' ').trim().toLowerCase()], dd = dt.nextElementSibling;
+    if (k && dd) f[k] = dd.textContent.replace(/\s+/g, ' ').trim();
+  }
+  f.text = [...d.querySelectorAll('.story p')].map(cardMarks).filter(Boolean).join('\n\n');
+  f.quote = t('blockquote p'); f.quoteBy = t('blockquote cite');
+  const out = {}; for (const k of ACARD_KEYS) out[k] = String(f[k] || '').slice(0, ACARD_MAX[k]);
+  return out;
+}
+function cardFields(p) {
+  const saved = p && p.aboutCard && typeof p.aboutCard === 'object' && !Array.isArray(p.aboutCard) ? p.aboutCard : null, f = {};
+  for (const k of ACARD_KEYS) f[k] = saved && typeof saved[k] === 'string' ? saved[k] : '';
+  if (!saved && p) { const c = cardFromCode(cardCode(p)); if (c) Object.assign(f, c); else f.text = bioToCardText(cardBio(p)); }
+  return f;
+}
+const cardInline = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/\*(.+?)\*/g, '<em>$1</em>').replace(/❤︎?️?/g, '<span class="heart">&#10084;&#65038;</span>').replace(/\n/g, '<br>');
+const cardParas = text => String(text || '').replace(/\r\n?/g, '\n').split(/\n[ \t]*\n/).map(x => x.trim()).filter(Boolean).map(x => `<p>${cardInline(x)}</p>`).join('');
+const CARD_CSS = `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@1,500&display=swap">
+<style>
+  .apc { --gold: #E2B95F; --gold-hi: #F7E3A6; --gold-lo: #B8862A; --white: #FFFFFF; --soft: #E8E6F0;
+    --key: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='12' viewBox='0 0 16 12'%3E%3Cpath d='M0 .75H16M0 11.25H16M2.5 11.25V3.5H11.5V9H6V6H9' fill='none' stroke='%23E2B95F' stroke-width='1.2'/%3E%3C/svg%3E");
+    position: relative; overflow: hidden; padding: 48px 34px 46px; border-radius: 18px; border: 1px solid rgba(226, 185, 95, .75);
+    background: radial-gradient(110% 60% at 50% 0%, rgba(226, 185, 95, .14), transparent 62%), radial-gradient(80% 50% at 50% 100%, rgba(255, 255, 255, .05), transparent 70%), #000000;
+    color: var(--soft); font: 15.5px/1.7 'Hanken Grotesk', system-ui, sans-serif; box-shadow: inset 0 0 0 4px #000000, inset 0 0 0 5px rgba(255, 255, 255, .14); }
+  .apc::before, .apc::after { content: ""; position: absolute; left: 16px; right: 16px; height: 12px; background: var(--key) repeat-x center / auto 12px; opacity: .9; }
+  .apc::before { top: 16px; } .apc::after { bottom: 16px; }
+  .apc header { text-align: center; }
+  .apc .eyebrow { margin: 6px 0 4px; font: 500 12px/1.4 Cinzel, Georgia, serif; letter-spacing: .32em; text-transform: uppercase; color: var(--white); }
+  .apc h1 { margin: 0; font: 700 clamp(30px, 7vw, 54px)/1.1 Cinzel, Georgia, serif; letter-spacing: .06em; overflow-wrap: normal;
+    background: linear-gradient(100deg, var(--gold-lo), var(--gold-hi) 30%, var(--white) 45%, var(--gold-hi) 60%, var(--gold) 80%, var(--gold-lo));
+    background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 0 18px rgba(226, 185, 95, .35)); animation: shimmer 7s ease-in-out infinite; }
+  @keyframes shimmer { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+  .apc .title { margin: 8px 0 0; color: var(--gold); font: italic 500 20px/1.4 'Cormorant Garamond', Georgia, serif; }
+  .apc .rule { display: flex; align-items: center; gap: 12px; margin: 26px auto; max-width: 420px; }
+  .apc .rule::before, .apc .rule::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+  .apc .rule::after { background: linear-gradient(90deg, var(--gold), transparent); }
+  .apc .rule span { width: 9px; height: 9px; transform: rotate(45deg); background: var(--white); box-shadow: 0 0 0 3px #000000, 0 0 0 4px var(--gold), 0 0 14px rgba(255, 255, 255, .5); }
+  .apc .facts, .apc .fours { display: grid; gap: 10px; }
+  .apc .fours { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+  .apc .fact { padding: 11px 14px 12px; border-radius: 10px; border: 1px solid rgba(226, 185, 95, .38); background: rgba(255, 255, 255, .035); }
+  .apc .k { display: block; font: 500 11px/1.4 Cinzel, Georgia, serif; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+  .apc .v { display: block; margin: 3px 0 0; color: var(--white); font-weight: 500; }
+  .apc .heart { color: var(--gold); }
+  .apc h2 { display: flex; align-items: center; gap: 14px; margin: 34px 0 14px; font: 500 15px/1.3 Cinzel, Georgia, serif; letter-spacing: .3em; text-transform: uppercase; color: var(--white); }
+  .apc h2::before, .apc h2::after { content: ""; flex: 1; height: 1px; background: rgba(226, 185, 95, .55); }
+  .apc header + h2 { margin-top: 26px; }
+  .apc p { margin: 0 0 14px; }
+  .apc .story p:first-child { display: flow-root; }
+  .apc .story p:first-child:not(.none)::first-letter { float: left; margin: 6px 10px 0 0; font: 700 52px/.8 Cinzel, Georgia, serif; color: var(--gold); text-shadow: 0 0 14px rgba(226, 185, 95, .4); }
+  .apc .story b { color: var(--gold-hi); font-weight: 600; }
+  .apc .story em { color: var(--white); font-style: normal; font-weight: 600; }
+  .apc .story .none { color: rgba(232, 230, 240, .7); font-style: italic; text-align: center; }
+  .apc .story > :last-child { margin-bottom: 0; }
+  .apc blockquote { margin: 30px 0 0; padding: 0 12px; text-align: center; }
+  .apc .qmark { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
+  .apc .qmark::before, .apc .qmark::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+  .apc .qmark::after { background: linear-gradient(90deg, var(--gold), transparent); }
+  .apc .qmark span { height: 30px; color: var(--gold); font: 700 54px/1 Cinzel, Georgia, serif; text-shadow: 0 0 14px rgba(226, 185, 95, .4); }
+  .apc blockquote p { margin: 0; color: var(--white); font: italic 500 23px/1.45 'Cormorant Garamond', Georgia, serif; }
+  .apc cite { display: block; margin-top: 12px; font: 500 12px/1.4 Cinzel, Georgia, serif; font-style: normal; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); }
+  @media (max-width: 480px) { .apc { padding: 44px 20px 42px; } .apc blockquote p { font-size: 20px; } }
+  @media (prefers-reduced-motion: reduce) { .apc h1 { animation: none; } }
+</style>`;
+function cardHtml(f, p) {
+  const name = f.name.trim() || cardName(p || {}) || 'Apollo';
+  const fact = (k, label, wide) => f[k].trim() ? `<div class="fact${wide ? ' wide' : ''}"><span class="k">${label}</span><span class="v">${cardInline(f[k].trim())}</span></div>` : '';
+  const fours = ['age', 'race', 'gender', 'deity'].map(k => fact(k, {age: 'Age', race: 'Race', gender: 'Gender', deity: 'Deity inspiration'}[k])).join('');
+  const facts = fact('role', 'Role', true) + (fours ? `<div class="fours">${fours}</div>` : '') + fact('rp', 'RP preference', true);
+  const story = cardParas(f.text) || `<p class="none">${esc(name)} has not written anything here yet.</p>`;
+  return CARD_CSS + `<div class="apc"><header>${f.eyebrow.trim() ? `<p class="eyebrow">${esc(f.eyebrow.trim())}</p>` : ''}<h1>${esc(name)}</h1>${f.title.trim() ? `<p class="title">${cardInline(f.title.trim())}</p>` : ''}</header>`
+    + (facts ? `<div class="rule"><span></span></div><div class="facts">${facts}</div>` : '')
+    + `<h2>About</h2><div class="story">${story}</div>`
+    + (f.quote.trim() ? `<blockquote><div class="qmark" aria-hidden="true"><span>&ldquo;</span></div><p>${cardInline(f.quote.trim().replace(/^["'“‘]+|["'”’]+$/g, ''))}</p>${f.quoteBy.trim() ? `<cite>${esc(f.quoteBy.trim())}</cite>` : ''}</blockquote>` : '')
+    + '</div>';
+}
+
+const CARRD_SECTIONS = [['owners', 'Owners'], ['dancers', 'Dancers'], ['bartenders', 'Bartenders'], ['security', 'Security'], ['hosts', 'Hosts & Receptionists'], ['photographers', 'Photographers & Artists'], ['dealers', 'Dealers & Tarot Readers']];
+const CARRD_DEFAULT = {admin: 'owners', owner: 'owners', coowner: 'owners', mgr_dealer: 'dealers', asst_dealer: 'dealers', dancer: 'dancers', mgr_dancer: 'dancers', asst_dancer: 'dancers', bartender: 'bartenders', mgr_bar: 'bartenders', asst_bar: 'bartenders',
+  bouncer: 'security', mgr_bouncer: 'security', asst_bouncer: 'security', host: 'hosts', receptionist: 'hosts', mgr_foh: 'hosts', asst_foh: 'hosts', photographer: 'photographers', dj: 'photographers', dealer: 'dealers', fortune: 'dealers'};
+function carrdSectionOf(role, cfg) {
+  const m = cfg && cfg.carrdSections && typeof cfg.carrdSections === 'object' ? cfg.carrdSections : {};
+  const v = Object.prototype.hasOwnProperty.call(m, role) ? m[role] : CARRD_DEFAULT[role];
+  return CARRD_SECTIONS.some(([k]) => k === v) ? v : '';
+}
+const CARRD_TITLES = {owner: 'Owner', co: 'Co-Owner'};
+const carrdTitleKey = (p, cfg) => p.role === 'owner' ? 'owner' : p.role === 'coowner' ? 'co' : p.role === 'admin' ? (cfg && cfg.carrdTitles && typeof cfg.carrdTitles === 'object' && cfg.carrdTitles[p.id] === 'owner' ? 'owner' : 'co') : '';
+const carrdRank = r => r === 'admin' || r === 'owner' || r === 'coowner' ? 0 : /^mgr_/.test(r) ? 1 : /^asst_/.test(r) ? 2 : 3;
+const carrdTeam = (people, section, cfg) => people.filter(p => carrdSectionOf(p.role, cfg) === section).map(p => [p, section !== 'owners' ? 0 : carrdTitleKey(p, cfg) === 'owner' ? 0 : carrdTitleKey(p, cfg) === 'co' ? 1 : 2]).sort(([a, x], [b, y]) => x - y || carrdRank(a.role) - carrdRank(b.role) || cardName(a).localeCompare(cardName(b))).map(([p]) => p);
+const STORED_PIC = /^https:\/\/firebasestorage\.googleapis\.com\/v0\/b\/[^/?#]+\/o\/cards%2F([^%/?#]+)%2F(pic|body)\.(gif|webp|png|jpg|avif)\?alt=media&token=[-0-9a-f]+$/;
+function storedPic(v, uid, kind) { const m = STORED_PIC.exec(typeof v === 'string' ? v : ''); return !!m && !!uid && m[1] === encodeURIComponent(uid) && m[2] === kind; }
+const cardPhoto = (p, uid = p && p.id) => { const v = p && p.photo; return typeof v === 'string' && (v.startsWith('data:image/') || storedPic(v, uid, 'pic')) ? v : ''; };
+const cardBody = (p, uid = p && p.id) => p && storedPic(p.fullBody, uid, 'body') ? p.fullBody : '';
+const DEFAULT_GAMES = [
+  {id: 'blackjack', name: 'Blackjack', eyebrow: 'Apollo Casino', title: 'Beat the dealer to 21 without going over',
+    facts: 'Minimum bet: 100,000 gil\nMaximum bet: 500,000 gil\nBlackjack pays: 3:2\nDealer stands: On soft 17 or above',
+    howTitle: 'How to play',
+    rules: 'Trade your wager to the dealer when it is called. Cards are dealt clockwise around the table.\nThe dealer rolls /dice 13 for each card: 1 is an Ace, 2 to 10 are their face value, and 11, 12 and 13 are the Jack, Queen and King.\nGet closer to 21 than the dealer without going over. Jacks, Queens and Kings count as 10, and an Ace as 1 or 11.\nAn Ace and a card worth 10 as your first two cards is a **natural Blackjack**, and pays 3:2.\nOn your turn: **Hit**, **Stand** or **Double Down**. With a pair, or two cards worth 10, you can also **Split**.\n**Double Down:** match your original wager, and one final card is drawn for you.\n**Split:** match your original wager to play two hands. One split at most, and no Double Down on a split hand.\nAfter your third card, you can only Hit or Stand. Go over 21 and you bust, and lose the hand.\nThe dealer stands on soft 17 or above.\nA dealer\'s natural Blackjack beats every hand except a player\'s natural Blackjack, which pushes.\n**Even Money:** with a natural Blackjack against a dealer\'s Ace, you can take a 1:1 payout on your turn. You are paid, and sit out the rest of the hand.\nA tie with the dealer is a **push**: your original wager stays yours.',
+    note: ''},
+  {id: 'poker', name: 'Poker', eyebrow: 'Apollo Casino', title: "No-Limit Texas Hold'em",
+    facts: 'Buy-in: 500,000 gil\nBlinds: 12,500 / 25,000\nMinimum bet: 25,000\nHouse rake: 5% of each pot',
+    howTitle: "How to play No-Limit Texas Hold'em",
+    rules: 'You get 2 private cards by /tell. 5 shared cards are dealt face up on the table.\nMake the best 5-card hand from your 2 cards and the 5 on the table.\nBlinds are 12,500/25,000, posted by the 2 players left of the button. The button moves every hand.\nBetting rounds: before the flop, after the flop (3 cards), after the turn (4th card), after the river (5th card).\nOn your turn: fold, check (if no bet), call, bet or raise. Say it in chat, e.g. "call" or "raise to 75,000".\nMinimum bet is 25,000. A raise must be at least as big as the last bet or raise.\nYou can go all-in at any time. All-in for less than a bet? You can only win what you matched; extra bets go to a side pot.\nThe last player left wins the pot, or the best hand at showdown. Identical hands split it.\nHouse rake: 5% of each pot.\nBomb pots: now and then everyone puts in the same amount, there are no blinds, and the hand starts on the flop.\nBuy-in is 500,000 gil, traded to the dealer. Cash out with the dealer between hands.',
+    note: 'Eorzean Poker is designed by Elenor. Please visit https://discord.gg/FC4UbMeVJD for more information.'}
+];
+const GAME_MAX = {id: 40, name: 80, eyebrow: 80, title: 160, facts: 1200, howTitle: 120, rules: 8000, note: 600};
+const gamesOf = cfg => (Array.isArray(cfg && cfg.games) ? cfg.games : DEFAULT_GAMES).filter(g => g && typeof g === 'object').map((g, i) => Object.fromEntries(Object.keys(GAME_MAX).map(k => [k, String(g[k] == null ? '' : g[k]).slice(0, GAME_MAX[k])]))).map((g, i) => ({...g, id: slugify(g.id) || 'game-' + (i + 1)}));
+const gameText = s => cardInline(s).replace(/https?:\/\/[^\s<]+[^\s<.,;:!?)'"]/g, u => `<a href="${u}" rel="noopener">${u}</a>`);
+const GAME_CSS = `.apc ul.steps{list-style:none;margin:0;padding:0;display:grid;gap:11px}
+.apc ul.steps li{position:relative;padding-left:26px}
+.apc ul.steps li::before{content:"";position:absolute;left:4px;top:.66em;width:7px;height:7px;transform:rotate(45deg);background:var(--gold);box-shadow:0 0 0 2px #000,0 0 0 3px rgba(226,185,95,.45),0 0 10px rgba(226,185,95,.45)}
+.apc ul.steps b,.apc .fact b{color:var(--gold-hi);font-weight:600}
+.apc ul.steps em{color:var(--white);font-style:normal;font-weight:600}
+.apc .credit{margin:30px 0 0;text-align:center}
+.apc .credit .qmark{margin-bottom:12px}
+.apc .credit .qmark span.dia{width:9px;height:9px;transform:rotate(45deg);background:var(--white);box-shadow:0 0 0 3px #000,0 0 0 4px var(--gold),0 0 14px rgba(255,255,255,.5)}
+.apc .credit p{margin:0;color:var(--white);font:italic 500 19px/1.5 'Cormorant Garamond',Georgia,serif}
+.apc a{color:var(--gold-hi);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere}
+.apc.game h1{font-size:clamp(30px,9vw,50px)}
+.apc.game{box-sizing:border-box;min-height:100vh;display:flex;flex-direction:column}
+[data-apollo-measure] .apc.game{min-height:0}
+.apc.game .rule{width:100%}
+.apc.game .fours{display:flex;flex-wrap:wrap}
+.apc.game .fours .fact{flex:1 1 170px}
+.apc.game .credit{margin-top:auto;padding-top:30px}
+.apc.game h2{text-align:center;line-height:1.7}
+.apc.game h2::before,.apc.game h2::after{min-width:22px}`;
+function gameCardHtml(g) {
+  const lines = v => String(v || '').replace(/\r\n?/g, '\n').split('\n').map(x => x.trim()).filter(Boolean);
+  const facts = lines(g.facts).map(x => { const i = x.indexOf(':'); return i > 0 ? [x.slice(0, i).trim(), x.slice(i + 1).trim()] : ['', x]; });
+  const rules = lines(g.rules).map(x => x.replace(/^[-•*◆]\s+/, '')), note = String(g.note || '').trim();
+  return CARD_CSS + `<style>${GAME_CSS}</style><div class="apc game"><header>${g.eyebrow.trim() ? `<p class="eyebrow">${esc(g.eyebrow.trim())}</p>` : ''}<h1>${esc(g.name.trim() || 'A game')}</h1>${g.title.trim() ? `<p class="title">${gameText(g.title.trim())}</p>` : ''}</header>`
+    + (facts.length ? `<div class="rule"><span></span></div><div class="fours">${facts.map(([k, v]) => `<div class="fact">${k ? `<span class="k">${esc(k)}</span>` : ''}<span class="v">${gameText(v)}</span></div>`).join('')}</div>` : '')
+    + (rules.length ? `<h2>${esc(g.howTitle.trim() || 'How to play')}</h2><ul class="steps">${rules.map(r => `<li>${gameText(r)}</li>`).join('')}</ul>` : '')
+    + (note ? `<footer class="credit"><div class="qmark" aria-hidden="true"><span class="dia"></span></div><p>${gameText(note)}</p></footer>` : '')
+    + '</div>';
+}
+const ROLE_LABELS = {"dancer": "Dancer", "host": "Host", "receptionist": "Receptionist", "bartender": "Bartender", "dealer": "Dealer", "bouncer": "Bouncer", "fortune": "Fortune Teller", "photographer": "Photographer", "dj": "DJ", "asst_foh": "Asst. Manager (Front of House)", "asst_dancer": "Asst. Manager (Dancer)", "asst_bar": "Asst. Manager (Bar)", "asst_bouncer": "Asst. Manager (Bouncer)", "asst_dealer": "Asst. Manager (Dealer)", "mgr_foh": "Manager (Front of House)", "mgr_dancer": "Manager (Dancer)", "mgr_bar": "Manager (Bar)", "mgr_bouncer": "Manager (Bouncer)", "mgr_dealer": "Manager (Dealer)", "coowner": "Co Owner", "owner": "Owner", "none": "View only"};
+
+const params = new URLSearchParams(location.search);
+if (params.get('theme') === 'light') document.documentElement.dataset.theme = 'light';
+const themeNow = () => document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+const box = document.getElementById('about');
+const key = (() => { const p = location.pathname.split('/').filter(Boolean); try { return decodeURIComponent(p[1] || ''); } catch { return p[1] || ''; } })();
+// the Carrd page is told how tall this is, every time that changes
+let lastH = 0;
+function tell() {
+  const h = Math.ceil(Math.max(document.body.scrollHeight, box.getBoundingClientRect().bottom + scrollY));
+  if (h === lastH) return; lastH = h;
+  try { parent.postMessage({apolloEmbed: 1, h}, '*'); } catch { /* not in a frame */ }
+}
+new ResizeObserver(tell).observe(document.body); addEventListener('load', tell);
+// someone's own code reports its height to this page the same way it does on the site
+const frameTall = {};
+addEventListener('message', e => {
+  const d = e.data; if (!d || d.apolloFrame !== 1 || typeof d.h !== 'number') return;
+  const f = [...box.querySelectorAll('iframe.codeframe')].find(x => x.contentWindow === e.source); if (!f) return;
+  const h = Math.max(24, Math.min(5000, Math.ceil(d.h))); if (f.dataset.who) frameTall[f.dataset.who] = h;
+  if (f.style.height !== h + 'px') { f.style.height = h + 'px'; tell(); }
+});
+// one person's About box, into a place on this page: the Apollo card, their own code, or their bio
+// v2.24: an opened card on the Carrd's staff sections shows the person at the top. v2.25: their full-body picture
+// when they have one, in an arched gold frame like a temple doorway; a click (or Enter) shows the whole picture at
+// its full size (as wide as the card, as tall as a screen), and another click makes it small again. It needs no script: the frame is a label for a
+// hidden checkbox. Without a full-body picture, their profile picture in a round frame, as before.
+const PIC_CSS = `.pic{display:flex;justify-content:center;margin:2px 0 18px}
+.pic img.round{width:136px;height:136px;border-radius:50%;object-fit:cover;border:2px solid #E2B95F;box-shadow:0 0 0 5px #000,0 0 0 6px rgba(226,185,95,.5),0 0 34px rgba(226,185,95,.28)}
+.pic.body{flex-direction:column;align-items:center;gap:12px}
+.pic .zoom{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.pic label{display:block;cursor:zoom-in;border-radius:999px 999px 16px 16px;padding:6px;background:#000;box-shadow:0 0 0 1px rgba(226,185,95,.55),0 0 0 6px #000,0 0 0 7px rgba(226,185,95,.35),0 0 40px rgba(226,185,95,.22)}
+.pic label img{display:block;width:232px;height:348px;object-fit:cover;object-position:50% 12%;border-radius:999px 999px 11px 11px;border:2px solid #E2B95F;background:#0b0b0b}
+.pic .zoom:focus-visible + label{outline:2px solid #F7E3A6;outline-offset:6px}
+.pic .zoom:checked + label{cursor:zoom-out;border-radius:18px;max-width:100%;box-sizing:border-box}
+.pic .zoom:checked + label img{width:auto;height:auto;max-width:100%;max-height:820px;object-fit:contain;border-radius:13px}
+.pic .hint{font:500 11px/1 Cinzel,Georgia,serif;letter-spacing:.24em;text-transform:uppercase;color:#E2B95F;opacity:.8}
+.pic .hint .less,.pic .zoom:checked ~ .hint .more{display:none}
+.pic .zoom:checked ~ .hint .less{display:inline}
+@media (max-width:440px){.pic img.round{width:104px;height:104px}.pic label img{width:184px;height:276px}}`;
+document.getElementById('picstyle').textContent = PIC_CSS;
+function picTop(p, name) {
+  const body = cardBody(p), photo = cardPhoto(p);
+  if (body) return `<div class="pic body"><input type="checkbox" class="zoom" id="zoom-${esc(p.id)}" aria-label="See the whole picture of ${esc(name)}"><label for="zoom-${esc(p.id)}" title="See the whole picture"><img src="${esc(body)}" alt="${esc(name)}" decoding="async"></label><span class="hint" aria-hidden="true"><span class="more">See the whole picture</span><span class="less">Show it smaller</span></span></div>`;
+  return photo ? `<div class="pic"><img class="round" src="${esc(photo)}" alt="${esc(name)}" decoding="async"></div>` : '';
+}
+function aboutFor(p, withPic) {
+  const mode = cfg.aboutCards !== false ? 'card' : ['text', 'card', 'code'].includes(p.aboutMode) ? p.aboutMode : p.useCode === true ? 'code' : 'text';
+  let code = mode === 'card' ? cardHtml(cardFields(p), p) : mode === 'code' && typeof p.code === 'string' && p.code.trim() ? p.code : '';
+  const top = withPic ? picTop(p, cardName(p)) : '';
+  if (top && mode === 'card') code = code.replace('<div class="apc"><header>', `<style>${PIC_CSS}</style><div class="apc"><header>${top}`);
+  return {mode, code, bio: typeof p.bio === 'string' ? p.bio.trim() : '', top: top && mode !== 'card' ? top : ''};
+}
+function aboutInto(el, p, after, withPic) {
+  const name = cardName(p), a = aboutFor(p, withPic), top = a.top;
+  if (a.code) {
+    el.innerHTML = top + after;
+    const f = document.createElement('iframe');
+    f.className = 'codeframe'; f.title = `About ${name}`; f.dataset.who = p.id || ''; f.style.height = (frameTall[p.id] || 160) + 'px';
+    f.setAttribute('sandbox', 'allow-scripts allow-popups allow-popups-to-escape-sandbox'); f.setAttribute('referrerpolicy', 'no-referrer');
+    f.srcdoc = frameDoc(a.code); if (top) el.firstElementChild.after(f); else el.prepend(f); return;
+  }
+  if (/\[font=/.test(a.bio)) loadBioFonts();
+  el.innerHTML = `${top}<section class="box"><h3>About ${esc(name)}</h3>${a.bio ? `<div class="bio">${bioHtml(a.bio)}</div>` : `<p class="note">${esc(name)} has not written anything here yet.</p>`}</section>${after}`;
+}
+const fullLink = p => `<a class="full" href="${location.origin}/${p.coll === 'people' ? 'staff' : 'mortals'}/${encodeURIComponent(p.id)}" target="_blank" rel="noopener">See ${esc(cardName(p))}'s full profile &rsaquo;</a>`;
+// ── one person's About box: /embed/<their id> ──
+let shown = '';
+function show(p) {
+  const name = p ? cardName(p) : '', link = p && params.get('link') === '1' ? fullLink(p) : '';
+  const sig = JSON.stringify([p, themeNow(), !!link, cfg.aboutCards]); if (sig === shown) return; shown = sig;
+  document.title = name ? `About ${name} | Apollo Night Club and Casino` : 'About | Apollo Night Club and Casino';
+  if (!p) { box.innerHTML = '<section class="box"><p class="note">There is no profile at this address.</p></section>'; tell(); return; }
+  aboutInto(box, p, link); tell();
+}
+// ── v2.22: a staff section of the Carrd: /embed/team/<section> ──
+// Everyone whose role is in that section (Settings, Carrd staff sections, says which roles are), as tiles: owners
+// first (in the Owners section, Owners and then Co-Owners), then managers and assistant managers, then everyone else by name. A tile opens that person's card just
+// under its row. The list follows the site: someone hired appears, and someone who leaves the staff goes.
+const team = {key: '', list: [], open: '', sig: ''};
+const initials = n => String(n || '').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('') || '?';
+// the managers' titles, as the Carrd says them
+const CARRD_JOBS = {mgr_dancer: 'Dancer Manager', asst_dancer: 'Assistant Dancer Manager', mgr_bar: 'Bar Manager', asst_bar: 'Assistant Bar Manager',
+  mgr_foh: 'Front of House Manager', asst_foh: 'Assistant Front of House Manager', mgr_bouncer: 'Bouncer Manager', asst_bouncer: 'Assistant Bouncer Manager',
+  mgr_dealer: 'Dealer Manager', asst_dealer: 'Assistant Dealer Manager'};
+function roleText(p) {
+  const title = carrdSectionOf(p.role, cfg) === 'owners' && carrdTitleKey(p, cfg); if (title) return CARRD_TITLES[title];  // Owner or Co-Owner, from the role
+  const f = cardFields(p);
+  if (f.role.trim()) return f.role.trim();
+  const own = (Array.isArray(cfg.customRoles) ? cfg.customRoles : []).find(r => r && r.id === p.role);
+  return own ? String(own.label || '') : p.role === 'admin' ? 'Owner' : CARRD_JOBS[p.role] || ROLE_LABELS[p.role] || '';
+}
+function tileHtml(p) {
+  const pic = cardPhoto(p), name = cardName(p), on = team.open === p.id;
+  return `<button type="button" class="tile" data-id="${esc(p.id)}" aria-expanded="${on}" aria-controls="open-card">`
+    + (pic ? `<img class="ava" src="${esc(pic)}" alt="" decoding="async">` : `<span class="ava initials" aria-hidden="true">${esc(initials(name))}</span>`)
+    + `<span class="nm">${esc(name)}</span><span class="jb">${esc(roleText(p))}</span></button>`;
+}
+function showTeam() {
+  const sec = CARRD_SECTIONS.find(([k]) => k === team.key);
+  if (!sec) { box.innerHTML = '<section class="box"><p class="note">There is no staff section at this address.</p></section>'; tell(); return; }
+  const list = carrdTeam(team.list, team.key, cfg);
+  if (team.open && !list.some(p => p.id === team.open)) team.open = '';
+  const sig = JSON.stringify([list, team.open, cfg.aboutCards, cfg.customRoles]); if (sig === team.sig) return; team.sig = sig;
+  document.title = `${sec[1]} | Apollo Night Club and Casino`;
+  // v2.22.3: a department's managers and assistant managers have a row of their own, above the staff they manage
+  const split = team.key !== 'owners', leads = split ? list.filter(x => carrdRank(x.role) < 3) : [], rest = split ? list.filter(x => carrdRank(x.role) >= 3) : list;
+  const grid = (ps, label, cls) => ps.length ? `<div class="team${cls}" role="list" aria-label="${esc(label)}">${ps.map(tileHtml).join('')}</div>` : '';
+  box.innerHTML = list.length ? grid(leads, `${sec[1]}: managers`, ' leads') + (leads.length && rest.length ? '<div class="tdiv" aria-hidden="true"><i></i></div>' : '') + grid(rest, sec[1], '')
+    : '<p class="teamnone">No one here yet.</p>';
+  const p = list.find(x => x.id === team.open);
+  if (p) {
+    const panel = document.createElement('div'); panel.className = 'opened'; panel.id = 'open-card';
+    aboutInto(panel, p, `<p class="openrow"><button type="button" class="shut" data-shut="1">Close</button></p>`, true);
+    box.querySelector(`.tile[data-id="${CSS.escape(p.id)}"]`).closest('.team').append(panel); placeOpen();
+  }
+  tell();
+}
+// the open card sits just under the row of the tile that opened it. It stays last in the page and is shown there
+// with flex order: moving it would reload the card in it, which changes its height, which can change the width
+// (a scrollbar on the Carrd page), which moves it again.
+function placeOpen() {
+  const panel = box.querySelector('.opened'), tile = team.open && box.querySelector(`.tile[data-id="${CSS.escape(team.open)}"]`); if (!panel || !tile) return;
+  const tiles = [...tile.closest('.team').querySelectorAll('.tile')];
+  // measured with the card shown last, where it breaks no row
+  tiles.forEach(t => { t.style.order = ''; }); panel.style.order = '2';
+  const top = tile.offsetTop, last = tiles.map(t => t.offsetTop === top).lastIndexOf(true);
+  tiles.forEach((t, i) => { if (i > last) t.style.order = '3'; });
+}
+let placedW = innerWidth;
+addEventListener('resize', () => { if (innerWidth === placedW) return; placedW = innerWidth; placeOpen(); });
+box.addEventListener('click', e => {
+  const t = e.target.closest('.tile'), shut = e.target.closest('[data-shut]');
+  if (shut) { const was = team.open; team.open = ''; showTeam(); const back = was && box.querySelector(`.tile[data-id="${CSS.escape(was)}"]`); if (back) back.focus(); return; }
+  if (!t) return;
+  team.open = team.open === t.dataset.id ? '' : t.dataset.id; showTeam();
+  const again = box.querySelector(`.tile[data-id="${CSS.escape(t.dataset.id)}"]`); if (again) again.focus();
+});
+const parts = location.pathname.split('/').filter(Boolean);
+const teamKey = parts[1] === 'team' ? decodeURIComponent(parts[2] || '') : '';
+// v2.27: Apollo Casino's rules: /embed/casino for every game, /embed/casino/<game> for one
+const casinoKey = parts[1] === 'casino' ? (() => { try { return decodeURIComponent(parts[2] || ''); } catch { return parts[2] || ''; } })().toLowerCase() : null;
+if (!window.firebase || (!key && !teamKey && casinoKey === null)) { show(null); return; }
+firebase.initializeApp(FIREBASE_CONFIG);
+const db = firebase.firestore();
+// the site's settings: whether every About box is the Apollo card, and which roles are in which Carrd section
+let cfg = {};
+// the person is found by their id (which never changes), or else by the name in a profile's address
+let stop = null;
+async function find() {
+  for (const coll of ['people', 'mortals']) {
+    try { const d = await db.collection(coll).doc(key).get(); if (d.exists) return {coll, id: d.id}; } catch { /* not a usable id */ }
+  }
+  for (const coll of ['people', 'mortals']) {
+    try {
+      const snap = await db.collection(coll).get(), list = snap.docs.map(d => ({id: d.id, ...d.data()})), m = slugMap(list, cardName);
+      const hit = list.find(x => m.get(x.id) === key.toLowerCase()); if (hit) return {coll, id: hit.id};
+    } catch { /* that list could not be read */ }
+  }
+  return null;
+}
+async function follow() {
+  if (stop) { stop(); stop = null; }
+  const at = await find();
+  if (!at) { show(null); return; }
+  // it stays up to date: an edit on the site shows here straight away (and a Mortal made staff is found again)
+  stop = db.collection(at.coll).doc(at.id).onSnapshot(s => { if (s.exists) show({coll: at.coll, id: s.id, ...s.data()}); else follow(); }, () => show(null));
+}
+function followTeam() {
+  team.key = teamKey;
+  db.collection('config').doc('main').onSnapshot(d => { cfg = d.exists ? d.data() || {} : {}; showTeam(); }, () => {});
+  db.collection('people').onSnapshot(s => { team.list = s.docs.map(d => ({coll: 'people', id: d.id, ...d.data()})); showTeam(); }, () => { team.list = []; showTeam(); });
+}
+let casinoSig = '';
+function showCasino() {
+  const all = gamesOf(cfg), list = casinoKey ? all.filter(g => g.id === casinoKey) : all;
+  const sig = JSON.stringify(list); if (sig === casinoSig) return; casinoSig = sig;
+  document.title = `${list.length === 1 ? list[0].name + ' rules' : 'Rules'} | Apollo Casino`;
+  if (!list.length) { box.innerHTML = `<p class="teamnone">${casinoKey ? 'These rules are not on the site any more.' : 'The house rules will be posted here.'}</p>`; tell(); return; }
+  box.innerHTML = `<div class="casino"><div class="games">${list.map(g => `<div class="gameslot" data-g="${esc(g.id)}"></div>`).join('')}</div></div>`;
+  for (const g of list) {
+    const f = document.createElement('iframe'), who = 'game:' + g.id;
+    f.className = 'codeframe'; f.title = `${g.name || 'Game'} rules`; f.dataset.who = who; f.style.height = (frameTall[who] || 900) + 'px';
+    f.setAttribute('sandbox', 'allow-scripts allow-popups allow-popups-to-escape-sandbox'); f.setAttribute('referrerpolicy', 'no-referrer');
+    f.srcdoc = frameDoc(gameCardHtml(g));
+    box.querySelector(`[data-g="${CSS.escape(g.id)}"]`).append(f);
+  }
+  tell();
+}
+if (casinoKey !== null) db.collection('config').doc('main').onSnapshot(d => { cfg = d.exists ? d.data() || {} : {}; showCasino(); }, () => showCasino());
+else if (teamKey) followTeam();
+else db.collection('config').doc('main').get().then(d => { cfg = d.exists ? d.data() || {} : {}; }, () => {}).then(follow);
+})();
+</script>
+</body>
+</html>

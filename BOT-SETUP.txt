@@ -1,0 +1,175 @@
+Hermes the bot: setting him up
+==============================
+
+Hermes posts each Calendar event in your Discord: an announcement at 10:00 AM Eastern on the day of the event, and a
+"we're open" post when the doors open. Owners, co-owners and the administrator write both posts on the site.
+
+A Discord bot is an account for a program. You make it once in Discord's Developer Portal, give its password (the
+"token") to Firebase, and invite it to your server. It takes about 15 minutes, and you never need to touch code.
+
+
+PART 1: MAKE THE BOT IN DISCORD
+-------------------------------
+
+Step 1. Create Hermes
+   Open https://discord.com/developers/applications and sign in with your Discord account.
+   Click New Application (top right), name it Hermes, tick the box to agree, and click Create.
+
+Step 2. His name and picture
+   In the menu on the left, click Bot.
+   Under Icon, upload Hermes' picture. Make sure Username says Hermes. Click Save Changes.
+
+Step 3. Let him look people up
+   Still on the Bot page, scroll down to Privileged Gateway Intents.
+   Switch on SERVER MEMBERS INTENT and click Save Changes.
+   (This is what lets the Mention button on the site find people by name. Leave the other two off.)
+
+Step 4. Keep him yours (optional, recommended)
+   So nobody else can add Hermes to their server:
+     a. In the left menu, click Installation. Set Install Link to None and click Save Changes.
+     b. Go back to Bot and switch off Public Bot. Save Changes.
+   (Do a. before b., or Discord shows an error.)
+
+
+PART 2: GET FIREBASE READY
+--------------------------
+
+Step 5. Switch on Storage (for the pictures and videos in the posts)
+   Open https://console.firebase.google.com and pick ApolloHR.
+   In the left menu: Build > Storage > Get started.
+     - For the location, pick one marked as no-cost, such as US-CENTRAL1. It can't be changed later.
+     - Start in production mode. (The deploy replaces those rules with the site's own.)
+   Click Done (or Create). You only ever do this once.
+
+Step 6. Give Hermes' token to Firebase
+   a. Back in the Developer Portal, on the Bot page, click Reset Token, confirm, and click Copy.
+      (Discord may ask for your password or 2FA code first.)
+      The token is Hermes' password. Never paste it in Discord, on the site, or anywhere it can be seen on stream.
+   b. Open a terminal in the site folder (the one with firebase.json in it) and run:
+
+         firebase functions:secrets:set DISCORD_BOT_TOKEN
+
+      When it says "Enter a value for DISCORD_BOT_TOKEN", paste the token (right-click or Ctrl+V) and press Enter.
+      Nothing shows on screen while you paste: that is on purpose.
+      If it asks to switch on Secret Manager, say yes.
+   The token is kept in Google's Secret Manager. It is never in the site, the database, or these files.
+
+   If you ever need a new token (it leaked, or the site says Discord doesn't accept it): do this step again, then
+   run firebase deploy.
+
+Step 7. Deploy
+   In the same terminal, run:
+
+         firebase deploy
+
+     - "Cloud Storage for Firebase needs an IAM Role to use cross-service rules. Grant the new role?": type y.
+       (This lets the storage rules check who is an owner.)
+     - If it asks for DISCORD_BOT_TOKEN, you skipped step 6: paste the token now.
+     - If it asks to switch on Cloud Scheduler or other Google services, say yes. (Hermes checks every minute
+       for posts that are due.)
+     - The first time takes several minutes. If it says to try again in a few minutes, wait and run it again.
+
+
+PART 3: PUT HERMES IN YOUR SERVER
+---------------------------------
+
+Step 8. Invite him and pick his channel
+   On https://apolloncc.org, signed in as the administrator, open Settings > Discord. Under "Hermes the bot":
+     a. Click "Invite Hermes to your server". Discord opens: pick Apollo Night Club & Casino, click Continue,
+        leave every permission ticked, and click Authorize.
+     b. Back on the site, click Check again. It should say Hermes is connected.
+     c. Under "Channel for event posts", pick the channel the announcements go in.
+
+   If that channel is locked so only staff can post, let Hermes in too: in Discord, Edit Channel > Permissions >
+   add Hermes, and allow View Channel, Send Messages, Embed Links, Attach Files and Mention @everyone.
+
+Step 9. Try it
+   Tip: for a first try, pick a quiet test channel in step 8c, and switch it back afterwards.
+   Calendar > click a day with an event > click "Discord posts" next to the event.
+     - Each event starts from the house templates (your usual APOLLO PRESENTS post). Change anything you like.
+     - The preview underneath shows how it will look in Discord.
+     - Click "Schedule it" on each post you want sent. Nothing is ever posted before you do.
+
+
+PART 4: CLOCKING IN AND OUT FROM DISCORD
+----------------------------------------
+Once Hermes is in your server (Part 3), he can also clock people in and out on the HR page with slash commands:
+/clockin, /clockout, /pfclockin and /pfclockout (party finders and shouts), /shift (your hours and pay so far tonight),
+/onshift (who is on the clock), /hrlink and /help. (Linking is /hrlink, not /link, because other
+bots, like the birthday bot, already have a /link.)
+
+Step 10. Deploy, then give Discord Hermes' address
+   a. Run firebase deploy as usual.
+   b. On https://apolloncc.org, open Settings > Discord. Under "Clocking in with Hermes", click Copy next to
+      the Interactions Endpoint URL.
+   c. In the Developer Portal, open Hermes, then General Information. Paste it into INTERACTIONS ENDPOINT URL and
+      click Save Changes. Discord checks the address straight away. If it says it could not verify it, wait a
+      minute (the new functions may still be starting) and save again.
+   d. Within a minute, typing / in your server shows Hermes' commands. If they don't show, click "Set up the
+      commands again" in Settings > Discord.
+
+Step 11. Keep the commands to one channel (optional)
+   In Discord: Server Settings > Integrations > Hermes. There you can pick which channels and roles can use each
+   command, for example only a #clock-in channel.
+
+Step 12. Everyone links their Discord, once
+   Each person's login must be tied to their row on the HR roster (Account management > Logins and permissions, on
+   your profile page, as for pay).
+   Then they open their profile on the site, click "Get a link code" in the Discord box (only they see it), and type
+   /hrlink in the server with that code. The code works once, for 10 minutes. After that, their Discord and their login
+   belong together until they unlink it from that same box (or you do, from their card in Staff Profiles), so nobody
+   can clock in as someone else.
+
+How the clock commands work
+- Every reply from Hermes is private: only the person who typed the command sees it.
+- /clockin and /clockout stamp the time like the tick boxes on the HR page do, rounded to the quarter hour.
+- Owners and co-owners can fix someone else's clock: /clockin member:@someone (or /clockout).
+- Clocking in more than an hour before doors open, clocking in after closing, clocking out more than half an hour
+  after closing, and every fix by an owner show under "To review" on the HR page, for owners and co-owners. You can
+  change the hour and the half hour in Settings > Discord. On a night with a Calendar event, its times count.
+- Someone on LOA can't clock themselves in, and nobody can while the site is in maintenance mode.
+
+Party finders and shouts (promoting Apollo)
+- /pfclockin asks what they're doing, with three buttons: Party finder, Shouts or Both. Pressing one clocks them in for
+  it, to the quarter hour. /pfclockout clocks them out, and the time goes on their row of the HR page.
+- It is paid by the hour on top of their shift: 60,000g for party finders and 140,000g for shouts (both at once earns
+  both). Change the rates in Settings > Promotion pay.
+- On the HR page, the Promotion hours column shows each person's hours (you can type them too), and anyone still
+  promoting, with an End button. Pay includes it, and it is logged to Data with the night and counted on profiles.
+  Start a new night clears it. Promoting counts as showing up, so it adds no missed day.
+- Owners and co-owners can add member:@someone to /pfclockin and /pfclockout too; those show under "To review".
+- If the new commands don't show in Discord a minute after you deploy, click "Set up the commands again" in
+  Settings > Discord.
+
+
+HOW IT WORKS
+------------
+- The morning announcement goes out at 10:00 AM Eastern on the day of the event. The doors-open post goes out when
+  the event starts. Either time can be changed for one event with "Posts at" (and put back with "Usual time").
+- Your changes save by themselves as you type. If a post is already in Discord, Hermes edits it there within a
+  minute. Changing its picture or video posts it again (Discord can't swap an attachment), and switching
+  "Post this" off takes it down.
+- Changing the event on the Calendar (its name, day or times) updates the posts and the Discord Event too.
+- Words in {curly brackets} are filled in when Hermes posts: {event} the event's name, {start} its date and time,
+  {end} the closing time, {countdown} how long until it starts, {where} and {details}. Times show on each reader's
+  own clock in Discord.
+- Emoji lists your server's own emojis. Mention finds people by name, and has your roles.
+- "Also list it in the server's Events tab" adds the event to Discord's Events list as well (on by default).
+- "Save these as the house templates" makes this event's posts the starting point for new events.
+- Only owners, co-owners and you can see or change the posts. In maintenance mode, only you.
+
+
+IF SOMETHING SAYS...
+--------------------
+"Hermes isn't allowed to post there"    Give him the permissions in step 8 on that channel, then Try again.
+"Deleted in Discord"                    Someone deleted the post. "Post it again" sends it once more.
+"Hermes can't look people up yet"       Switch on Server Members Intent (step 3).
+"Discord does not accept the token"     Get a new token and set it again (step 6), then firebase deploy.
+"Hermes' functions can't be reached"    Run firebase deploy (step 7).
+
+
+WHAT IT COSTS
+-------------
+Nothing in practice. The every-minute check, the posts and the files all fit well inside the Blaze plan's free
+allowances (Cloud Scheduler gives 3 free jobs and Hermes uses 1). Pictures and videos are deleted when their event
+is deleted from the Calendar.

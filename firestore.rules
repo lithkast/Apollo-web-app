@@ -1,0 +1,595 @@
+rules_version = '2';
+
+// Apollo's Temple access rules.
+// A guest (anyone who is not logged in, or whose sign-up is not approved yet) can read Reception, the Blacklist
+// and the bar menu (the public Taverna page shows it).
+// Who booked each dancer is not part of the bookings a guest reads: patron names are kept apart, for staff only.
+// Owners and co-owners switch collab nights on and off; while one is on, Reception takes no new bookings.
+// Every account starts as a Mortal: signed in, it reads the guest pages and Staff Profiles, and can apply to join the staff.
+// The other staff pages (Calendar, Raffle, Bar, HR, VIPs, Pantheon) need a login.
+// Changing anything needs a login whose permissions the owner set in Settings.
+// The owner is the one login whose User UID is written in isOwner() below.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isOwner() {
+      return signedIn() && request.auth.uid == '1CZiVZOMhMUIdhhJNwTelBrIeYb2';
+    }
+    function hasLogin() {
+      return signedIn() && exists(/databases/$(database)/documents/accounts/$(request.auth.uid));
+    }
+    function login() {
+      return get(/databases/$(database)/documents/accounts/$(request.auth.uid)).data;
+    }
+    // 0 hidden, 1 view, 2 edit
+    function level(tab) {
+      return hasLogin() ? login().tabs.get(tab, 0) : 0;
+    }
+    function canView(tab) {
+      return isOwner() || level(tab) >= 1;
+    }
+    // Maintenance mode is a switch in Settings. While it is on, only the owner can change anything.
+    function maintenance() {
+      return exists(/databases/$(database)/documents/config/main)
+             && get(/databases/$(database)/documents/config/main).data.get('maintenance', false) == true;
+    }
+    function canEdit(tab) {
+      return isOwner() || (!maintenance() && level(tab) == 2);
+    }
+    function canLog() {
+      return isOwner() || (!maintenance() && hasLogin() && login().get('log', false) == true);
+    }
+    // Pay on profiles is private. The owner and logins with "See pay" ticked can read everyone's.
+    function canSeePay() {
+      return isOwner() || (hasLogin() && login().get('pay', false) == true);
+    }
+
+    // Sign-ups wait for approval. The owner, and logins with "Approve sign-ups" ticked (owners and co-owners),
+    // can see them. Approving or declining is the owner's alone while maintenance mode is on.
+    function mayApprove() {
+      return isOwner() || (hasLogin() && login().get('approve', false) == true);
+    }
+    // the roles anyone who may make a Mortal staff can give; they carry no permission to change anything (index.html, PLAIN_ROLES)
+    function plainRole(r) {
+      return r in ['none', 'dancer', 'host', 'receptionist', 'bouncer', 'bartender', 'dealer', 'photographer', 'fortune', 'dj'];
+    }
+    function canApprove() {
+      return isOwner() || (!maintenance() && mayApprove());
+    }
+
+    // Staff: the owner, and anyone whose sign-in has been given a login
+    function isStaff() {
+      return isOwner() || hasLogin();
+    }
+
+    // The owner of the site, and logins given the Owner or Co Owner role (v2.23: two roles, the same access)
+    function ownerRole() {
+      return isOwner() || (hasLogin() && login().get('role', '') in ['owner', 'coowner']);
+    }
+    // Who manages logins (Account management on the site): the owner, and the owners and co-owners outside
+    // maintenance mode
+    function manager() {
+      return isOwner() || (!maintenance() && ownerRole());
+    }
+    // A login an owner or co-owner may write: the usual fields, and never Data edit or Settings edit, which only
+    // the owner of the site gives
+    function ownerSizedLogin(d) {
+      return d.keys().hasOnly(['name', 'email', 'role', 'tabs', 'log', 'pay', 'approve', 'hr', 'order', 'signup'])
+             && d.tabs is map
+             && d.tabs.get('data', 0) <= 1
+             && d.tabs.get('settings', 0) <= 1;
+    }
+    // A profile card (Staff Profiles or Mortal Profiles): the sizes the site keeps to
+    // v2.16: a profile picture is a small still one kept on the card itself, or one that moves (animated), kept in
+    // storage at cards/<uid>/pic.<type>; a full-body picture is always in storage, at cards/<uid>/body.<type>.
+    // About can also be the person's own HTML and CSS (code), shown instead of the bio while useCode is on.
+    function picOk(v, uid, kind) {
+      return v is string
+             && (v == ''
+                 || (kind == 'pic' && v.size() < 300000 && v.matches('data:image/.*'))
+                 || v.matches('https://firebasestorage[.]googleapis[.]com/v0/b/apollohr-9b84f[.]firebasestorage[.]app/o/cards%2F' + uid + '%2F' + kind + '[.](gif|webp|png|jpg|avif)[?]alt=media&token=[-0-9a-f]+'));
+    }
+    function lookOk(d, uid) {
+      return picOk(d.get('photo', ''), uid, 'pic') && picOk(d.get('fullBody', ''), uid, 'body')
+             && d.get('code', '') is string && d.get('code', '').size() <= 50000
+             && d.get('useCode', false) is bool
+             && d.get('aboutMode', 'text') in ['text', 'card', 'code'] && aboutCardOk(d.get('aboutCard', {}));
+    }
+    // v2.21: what someone's Apollo card says (the site draws the card itself): words only, each within its length
+    function acText(c, k, n) { return c.get(k, '') is string && c.get(k, '').size() <= n; }
+    function aboutCardOk(c) {
+      return c is map
+             && c.keys().hasOnly(['eyebrow', 'name', 'title', 'role', 'age', 'race', 'gender', 'deity', 'rp', 'text', 'quote', 'quoteBy'])
+             && acText(c, 'eyebrow', 60) && acText(c, 'name', 60) && acText(c, 'title', 140) && acText(c, 'role', 100)
+             && acText(c, 'age', 40) && acText(c, 'race', 80) && acText(c, 'gender', 40) && acText(c, 'deity', 80)
+             && acText(c, 'rp', 240) && acText(c, 'text', 8000) && acText(c, 'quote', 800) && acText(c, 'quoteBy', 60);
+    }
+    function cardOk(d, uid) {
+      return d.get('name', '') is string && d.get('name', '').size() <= 40
+             && d.get('username', '') is string && d.get('username', '').size() <= 40
+             && lookOk(d, uid)
+             && d.get('bio', '') is string && d.get('bio', '').size() <= 10000
+             && d.get('link', '') is string && d.get('link', '').size() <= 200
+             && d.get('link', '').matches('(https?://.+)?');
+    }
+    // The positions each manager role reads applications for. The application (appform/main) says which manager
+    // each position has; until it is first saved, the original positions apply (Dealer and Photographer have none).
+    // Each department's Assistant Manager reads the same ones as its manager.
+    function positionManager(pos, mgr) {
+      return (exists(/databases/$(database)/documents/appform/main)
+              && get(/databases/$(database)/documents/appform/main).data.get('managers', {}).get(pos, '') == mgr)
+             || (!exists(/databases/$(database)/documents/appform/main)
+                 && ((mgr == 'mgr_bar' && pos == 'Bartender / Server')
+                     || (mgr == 'mgr_bouncer' && pos == 'Bouncer')
+                     || (mgr == 'mgr_dancer' && pos == 'Dancer')
+                     || (mgr == 'mgr_foh' && (pos == 'Host / Hostess' || pos == 'Receptionist'))
+                     || (mgr == 'mgr_dealer' && pos == 'Dealer')));
+    }
+    function managesPosition(pos) {
+      return hasLogin()
+             && ((login().get('role', '') in ['mgr_bar', 'asst_bar'] && positionManager(pos, 'mgr_bar'))
+                 || (login().get('role', '') in ['mgr_bouncer', 'asst_bouncer'] && positionManager(pos, 'mgr_bouncer'))
+                 || (login().get('role', '') in ['mgr_dancer', 'asst_dancer'] && positionManager(pos, 'mgr_dancer'))
+                 || (login().get('role', '') in ['mgr_foh', 'asst_foh'] && positionManager(pos, 'mgr_foh'))
+                 || (login().get('role', '') in ['mgr_dealer', 'asst_dealer'] && positionManager(pos, 'mgr_dealer')));
+    }
+    function reviews(pos) {
+      return ownerRole() || managesPosition(pos);
+    }
+    // a position someone can apply for right now
+    function hiringFor(pos) {
+      return exists(/databases/$(database)/documents/hiring/main)
+             && get(/databases/$(database)/documents/hiring/main).data.get('open', false) == true
+             && get(/databases/$(database)/documents/hiring/main).data.get('roles', {}).get(pos, false) == true;
+    }
+
+    // Collab nights: the owner, and logins given the Owner or co-owner role, switch tonight's collab night on and off
+    // (only the owner while maintenance mode is on). While it is on, Reception takes no new bookings.
+    function canCollab() {
+      return isOwner() || (!maintenance() && hasLogin() && login().get('role', '') in ['owner', 'coowner']);
+    }
+    function collabNight() {
+      return exists(/databases/$(database)/documents/night/collab)
+             && get(/databases/$(database)/documents/night/collab).data.get('on', false) == true;
+    }
+
+    // Settings: every page reads them, only the owner changes them
+    // Hermes' slash commands (functions/clock.js): a person's own Discord link, which only they and the administrator
+    // read; the link the other way round and the one-time link codes are for the functions alone; and the clock-ins
+    // and clock-outs Hermes noted for the owners, who mark them reviewed (delete them)
+    match /discordLinks/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isOwner());
+    }
+    match /discordUsers/{id} {
+      allow read, write: if false;
+    }
+    match /linkCodes/{id} {
+      allow read, write: if false;
+    }
+    match /clockReviews/{id} {
+      allow read: if ownerRole();
+      allow delete: if isOwner() || (!maintenance() && ownerRole());
+    }
+
+    match /config/{docId} {
+      allow read: if true;
+      allow write: if isOwner();
+      // owners and co-owners keep the 50/50 raffle's announcement macro up to date, and change nothing else here
+      allow update: if docId == 'main' && !maintenance() && ownerRole()
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['raffleMacro'])
+                    && request.resource.data.raffleMacro is string
+                    && request.resource.data.raffleMacro.size() <= 2000;
+    }
+
+    // The administrator's Discord settings (the webhook Hermes posts with) and how the last delivery went.
+    // Only the administrator can read them; the functions in functions/ read and write them as the server.
+    match /private/{docId} {
+      allow read, write: if isOwner();
+    }
+    // Hermes' event posts: owners, co-owners and the administrator write each event's Discord posts (only the
+    // administrator in maintenance mode). Firebase sends them and reports back in eventpostState, which only it writes.
+    match /eventposts/{eid} {
+      allow read: if ownerRole();
+      allow delete: if isOwner() || (!maintenance() && ownerRole());
+      allow create, update: if (isOwner() || (!maintenance() && ownerRole()))
+                    && request.resource.data.keys().hasOnly(['announce', 'open', 'listEvent', 'by', 'at'])
+                    && request.resource.data.announce is map && request.resource.data.open is map
+                    && request.resource.data.announce.get('text', '') is string && request.resource.data.announce.get('text', '').size() <= 4000
+                    && request.resource.data.open.get('text', '') is string && request.resource.data.open.get('text', '').size() <= 4000;
+    }
+    match /eventpostState/{eid} {
+      allow read: if ownerRole();
+    }
+    // the house templates each event's posts start from
+    match /discordtemplates/{docId} {
+      allow read: if ownerRole();
+      allow create, update: if docId == 'main' && (isOwner() || (!maintenance() && ownerRole()))
+                    && request.resource.data.keys().hasOnly(['announce', 'open', 'by', 'at'])
+                    && request.resource.data.announce is string && request.resource.data.announce.size() <= 4000
+                    && request.resource.data.open is string && request.resource.data.open.size() <= 4000;
+    }
+    // Send a test message in Settings: the administrator adds one, the hermesTest function answers in it
+    match /discordTests/{id} {
+      allow read: if isOwner();
+      allow create: if isOwner() && request.resource.data.keys().hasOnly(['kind', 'at'])
+                    && request.resource.data.kind == 'applications' && request.resource.data.at is number;
+    }
+    // discordLog (what Hermes has already delivered) is for the functions only: no rule, so no one else can touch it
+
+    // Guest pages: anyone reads, editors write
+    match /reception/{docId} {
+      allow read: if isStaff();
+      allow create: if canEdit('reception') && (isOwner() || !collabNight());
+      allow update, delete: if canEdit('reception');
+    }
+    match /bans/{docId} {
+      allow read: if isStaff();
+      allow write: if canEdit('bans');
+    }
+    // Who booked each dancer. Guests can read the bookings, so patron names are kept here instead, for staff only.
+    // Each document's id is the id of its booking on the Reception page.
+    match /patrons/{docId} {
+      allow read: if isStaff();
+      allow delete: if canEdit('reception');
+      allow create, update: if canEdit('reception')
+                            && request.resource.data.keys().hasOnly(['name', 'order'])
+                            && request.resource.data.name is string
+                            && request.resource.data.name.size() <= 60;
+    }
+    // Staff pages: any login reads, editors write
+    match /raffle/{docId} {
+      allow read: if isStaff();
+      allow write: if canEdit('raffle');
+    }
+    match /hr/{docId} {
+      allow read: if isStaff();
+      allow write: if canEdit('hr');
+    }
+    match /vips/{docId} {
+      allow read: if isStaff();
+      allow write: if canEdit('vips');
+    }
+    // The bar menu, with a description and a picture for each item, is public: the Taverna page shows it.
+    // Tonight's bar buyouts are for staff. Logins that can change the Bar page write both.
+    match /menu/{docId} {
+      allow read: if true;
+      allow write: if canEdit('bar');
+    }
+    match /buyouts/{docId} {
+      allow read: if isStaff();
+      allow write: if canEdit('bar');
+    }
+    // The preparation macro for each menu item (the drink cards on the Bar page), under the item's id. Staff read
+    // them; whoever can change the Bar page writes them.
+    match /barmacros/{docId} {
+      allow read: if isStaff();
+      allow create, update: if canEdit('bar')
+                            && request.resource.data.keys().hasOnly(['text', 'by', 'at'])
+                            && request.resource.data.text is string
+                            && request.resource.data.text.size() <= 4000
+                            && request.resource.data.get('by', '') is string
+                            && request.resource.data.get('by', '').size() <= 80
+                            && request.resource.data.get('at', 0) is number;
+      allow delete: if canEdit('bar');
+    }
+    // The calendar of events: logins that can change the Calendar page write it
+    match /events/{docId} {
+      allow read: if isStaff();
+      allow write: if canEdit('calendar');
+    }
+
+    // Tonight's sheets: the receptionist name is public (it is on the Reception page), the casino shifts are not.
+    // Whether tonight is a collab night is public too: Reception shows it.
+    match /night/{docId} {
+      allow read: if (docId == 'reception' && isStaff())
+                  || docId == 'collab'
+                  || (docId == 'casino' && canView('casino'));
+      allow write: if (docId == 'reception' && canEdit('reception'))
+                   || (docId == 'casino' && canEdit('casino'))
+                   || (docId == 'collab' && canCollab()
+                       && request.resource.data.keys().hasOnly(['on', 'by', 'at'])
+                       && request.resource.data.on is bool
+                       && request.resource.data.get('by', '') is string
+                       && request.resource.data.get('by', '').size() <= 80
+                       && (request.resource.data.get('at', null) == null || request.resource.data.at is number));
+    }
+
+    // Reference lists: former staff (HR page), dealer macros, pantheon, the names of the logins that can be picked
+    // as receptionist (published by the owner's session), and the Reception and Host macros (every login reads
+    // them; owners and co-owners keep them)
+    match /reference/{docId} {
+      allow read: if ((docId == 'legacy_employees' || docId == 'gods' || docId == 'receptionists') && isStaff())
+                  || (docId == 'dealer_macros' && canView('macros'))
+                  || ((docId == 'reception_macros' || docId == 'host_macros') && isStaff());
+      allow write: if (docId == 'legacy_employees' && canEdit('hr'))
+                   || (docId == 'dealer_macros' && canEdit('macros'))
+                   || (docId == 'gods' && isOwner())
+                   || (docId == 'receptionists' && isOwner())
+                   || (docId == 'receptionists' && manager()
+                       && request.resource.data.keys().hasOnly(['names'])
+                       && request.resource.data.names is list
+                       && request.resource.data.names.size() <= 200)
+                   || ((docId == 'reception_macros' || docId == 'host_macros')
+                       && (isOwner() || (!maintenance() && ownerRole()))
+                       && request.resource.data.keys().hasOnly(['items'])
+                       && request.resource.data.items is list
+                       && request.resource.data.items.size() <= 100);
+    }
+
+    // Logged nights (the Data page). Log to Data adds or updates a night; removing one needs Data edit.
+    match /nights/{docId} {
+      allow read: if canView('data') || canLog();
+      allow create, update: if canLog() || canEdit('data');
+      allow delete: if canEdit('data');
+    }
+
+    // Logins and their permissions: the owner manages them, and so do owners and co-owners (Account management),
+    // except their own login, the owner's, and any login with Data edit or Settings edit. Each login can read its own.
+    match /accounts/{uid} {
+      allow read: if ownerRole() || (signedIn() && request.auth.uid == uid);
+      allow write: if isOwner();
+      allow create, update: if manager()
+                            && uid != request.auth.uid
+                            && uid != '1CZiVZOMhMUIdhhJNwTelBrIeYb2'
+                            && ownerSizedLogin(request.resource.data)
+                            && (resource == null || ownerSizedLogin(resource.data));
+      allow delete: if manager()
+                    && uid != request.auth.uid
+                    && ownerSizedLogin(resource.data);
+      // Making a Mortal staff (from the list of sign-ups, or by hiring their application) gives them a staff role with
+      // view-only permissions, under the name and email they signed up or applied with. Only the owner, and owners and
+      // co-owners (above), can give more.
+      allow create: if canApprove()
+                    && request.resource.data.keys().hasOnly(['name', 'email', 'role', 'tabs', 'log', 'pay', 'approve', 'hr', 'order', 'signup'])
+                    && plainRole(request.resource.data.role)
+                    && request.resource.data.tabs is map
+                    && request.resource.data.tabs.size() == 0
+                    && request.resource.data.log == false
+                    && request.resource.data.pay == false
+                    && request.resource.data.approve == false
+                    && ((exists(/databases/$(database)/documents/signups/$(uid))
+                         && request.resource.data.name == get(/databases/$(database)/documents/signups/$(uid)).data.name
+                         && request.resource.data.email == get(/databases/$(database)/documents/signups/$(uid)).data.email)
+                        || (exists(/databases/$(database)/documents/applications/$(uid))
+                         && request.resource.data.name == get(/databases/$(database)/documents/applications/$(uid)).data.name
+                         && request.resource.data.email == get(/databases/$(database)/documents/applications/$(uid)).data.email));
+    }
+
+    // What we are hiring for. Everyone reads it (Join the Staff shows it); the owners and co-owners change it.
+    // The application itself: its steps, questions, positions and disclaimer. Everyone reads it (Join the Staff
+    // shows it); owners, co-owners and the administrator change it (only the administrator in maintenance mode).
+    match /appform/{docId} {
+      allow read: if true;
+      allow create, update: if docId == 'main'
+                    && (isOwner() || (!maintenance() && ownerRole()))
+                    && request.resource.data.keys().hasOnly(['steps', 'stepTitles', 'questions', 'roleQuestion', 'positions', 'managers',
+                                                             'agreeTitle', 'agree', 'disclaimer', 'before', 'hours', 'by', 'at'])
+                    && request.resource.data.get('hours', '') is string && request.resource.data.get('hours', '').size() <= 300
+                    && request.resource.data.steps is list && request.resource.data.steps.size() >= 1 && request.resource.data.steps.size() <= 20
+                    && request.resource.data.questions is list && request.resource.data.questions.size() <= 150
+                    && request.resource.data.positions is list && request.resource.data.positions.size() >= 1 && request.resource.data.positions.size() <= 30
+                    && request.resource.data.managers is map;
+    }
+
+    match /hiring/{docId} {
+      allow read: if true;
+      allow write: if docId == 'main'
+                   && (isOwner() || (!maintenance() && ownerRole()))
+                   && request.resource.data.keys().hasOnly(['open', 'roles', 'by', 'at'])
+                   && request.resource.data.open is bool
+                   && request.resource.data.roles is map
+                   && request.resource.data.get('by', '') is string
+                   && request.resource.data.get('by', '').size() <= 80;
+    }
+
+    // Applications to join the staff, one per account under its User UID. The applicant sends it and reads it.
+    // The owners and co-owners read every one; a manager reads the positions they manage. Only staff with
+    // "Approve sign-ups" (owners and co-owners) can mark one Hired, which goes with making the login.
+    match /applications/{uid} {
+      allow read: if (signedIn() && request.auth.uid == uid) || reviews(resource.data.role);
+      allow create: if signedIn() && request.auth.uid == uid
+                    && !exists(/databases/$(database)/documents/accounts/$(uid))
+                    && request.resource.data.keys().hasOnly(['name', 'discord', 'tz', 'role', 'answers', 'asked', 'email', 'status', 'sent', 'order'])
+                    && request.resource.data.status == 'new'
+                    && request.resource.data.email == request.auth.token.email
+                    && request.resource.data.name is string
+                    && request.resource.data.name.size() >= 1
+                    && request.resource.data.name.size() <= 40
+                    && request.resource.data.discord is string
+                    && request.resource.data.discord.size() <= 60
+                    && request.resource.data.tz is string
+                    && request.resource.data.tz.size() <= 60
+                    && request.resource.data.answers is map
+                    && request.resource.data.answers.size() <= 150
+                    && request.resource.data.get('asked', []) is list
+                    && request.resource.data.get('asked', []).size() <= 150
+                    && request.resource.data.sent is number
+                    && request.resource.data.order is number
+                    && hiringFor(request.resource.data.role);
+      allow update: if (isOwner() || (!maintenance() && reviews(resource.data.role)))
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'statusAt', 'statusBy'])
+                    && request.resource.data.status in ['new', 'review', 'interview', 'nothired', 'hired']
+                    && (request.resource.data.status != 'hired' || canApprove())
+                    && resource.data.status != 'hired';
+      allow delete: if (signedIn() && request.auth.uid == uid && resource.data.status != 'hired') || canApprove();
+    }
+    // Staff notes on an application: for the people who read it, never the applicant
+    match /appnotes/{uid} {
+      allow read: if exists(/databases/$(database)/documents/applications/$(uid))
+                  && reviews(get(/databases/$(database)/documents/applications/$(uid)).data.role);
+      allow delete: if canApprove();
+      allow create, update: if exists(/databases/$(database)/documents/applications/$(uid))
+                            && (isOwner() || (!maintenance() && reviews(get(/databases/$(database)/documents/applications/$(uid)).data.role)))
+                            && request.resource.data.keys().hasOnly(['text', 'by', 'at'])
+                            && request.resource.data.text is string
+                            && request.resource.data.text.size() <= 2000;
+    }
+
+    // Sign-ups: the name of each Mortal who made their own sign-in, for the owners' list. They can add and read
+    // only their own, under their own email. Approvers read them all; making one staff makes the login above and
+    // removes the sign-up, removing it from the list just removes it.
+    match /signups/{uid} {
+      allow read: if mayApprove() || ownerRole() || (signedIn() && request.auth.uid == uid);
+      allow create: if signedIn() && request.auth.uid == uid
+                    && !exists(/databases/$(database)/documents/accounts/$(uid))
+                    && request.resource.data.keys().hasOnly(['name', 'email', 'message', 'order'])
+                    && request.resource.data.name is string
+                    && request.resource.data.name.size() >= 1
+                    && request.resource.data.name.size() <= 40
+                    && request.resource.data.email == request.auth.token.email
+                    && request.resource.data.message is string
+                    && request.resource.data.message.size() <= 500
+                    && request.resource.data.order is number;
+      allow delete: if canApprove() || manager();
+    }
+
+    // Requests left over from the old "request a login" form, which sign-ups replaced. Nobody can add one
+    // any more; the owner can still read and remove the ones that are there.
+    match /requests/{docId} {
+      allow read: if ownerRole();
+      allow delete: if manager();
+    }
+
+    // One card per login. The owner sets the name and role on every card and removes cards. Each login can change
+    // only its own username, pictures, bio (or its own code for About) and link (a web address). Whoever approves a sign-up may add the new
+    // person's card (with the one they had on Mortal Profiles).
+    // The staff directory (Staff Profiles). Since v2.8 anyone can read it, visitors included. Owners and co-owners
+    // keep the name and role on each card in step with the logins, as the owner does, and can take down a picture,
+    // username, link or bio; never on the owner's card, and never giving a card the owner's role.
+    match /people/{uid} {
+      allow read: if true;
+      allow create: if isOwner()
+                    || (signedIn() && request.auth.uid == uid && hasLogin()
+                        && request.resource.data.keys().hasOnly(['username', 'photo', 'bio', 'link', 'fullBody', 'code', 'useCode', 'aboutCard', 'aboutMode'])
+                        && lookOk(request.resource.data, uid)
+                        && request.resource.data.get('username', '').size() <= 40
+                        && request.resource.data.get('bio', '').size() <= 10000
+                        && request.resource.data.get('link', '').size() <= 200
+                        && request.resource.data.get('link', '').matches('(https?://.+)?'))
+                    || (canApprove()
+                        && get(/databases/$(database)/documents/accounts/$(uid)).data.get('signup', false) == true
+                        && request.resource.data.keys().hasOnly(['name', 'role', 'username', 'photo', 'bio', 'link', 'fullBody', 'code', 'useCode', 'aboutCard', 'aboutMode'])
+                        && plainRole(request.resource.data.role)
+                        && request.resource.data.name is string
+                        && cardOk(request.resource.data, uid))
+                    || (manager()
+                        && request.resource.data.keys().hasOnly(['name', 'role', 'username', 'photo', 'bio', 'link', 'fullBody', 'code', 'useCode', 'aboutCard', 'aboutMode'])
+                        && request.resource.data.get('role', '') != 'admin'
+                        && cardOk(request.resource.data, uid));
+      allow update: if isOwner()
+                    || (signedIn() && request.auth.uid == uid && hasLogin()
+                        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['username', 'photo', 'bio', 'link', 'fullBody', 'code', 'useCode', 'aboutCard', 'aboutMode'])
+                        && lookOk(request.resource.data, uid)
+                        && request.resource.data.get('username', '').size() <= 40
+                        && request.resource.data.get('bio', '').size() <= 10000
+                        && request.resource.data.get('link', '').size() <= 200
+                        && request.resource.data.get('link', '').matches('(https?://.+)?'))
+                    || (manager()
+                        && resource.data.get('role', '') != 'admin'
+                        && request.resource.data.get('role', '') != 'admin'
+                        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'role', 'username', 'photo', 'bio', 'link', 'fullBody', 'code', 'useCode', 'aboutCard', 'aboutMode'])
+                        && cardOk(request.resource.data, uid));
+      allow delete: if isOwner() || (manager() && resource.data.get('role', '') != 'admin');
+    }
+
+    // Mortal Profiles (v2.8): a card for each Mortal, readable by anyone. A Mortal makes and keeps their own: the
+    // name they signed up with, then their username, picture, link and bio. Whoever approves sign-ups can make the
+    // card of someone on the list of sign-ups (with that name). Owners and co-owners can make one for an account
+    // without a login (when a login is removed, its card moves here), take down a picture, username, link or bio,
+    // and remove a card; making a Mortal staff moves their card to Staff Profiles.
+    match /mortals/{uid} {
+      allow read: if true;
+      allow create: if (signedIn() && request.auth.uid == uid
+                        && !exists(/databases/$(database)/documents/accounts/$(uid))
+                        && request.resource.data.keys().hasOnly(['name', 'username', 'photo', 'bio', 'link', 'order', 'fullBody', 'code', 'useCode', 'aboutCard', 'aboutMode'])
+                        && request.resource.data.get('order', 0) is number
+                        && cardOk(request.resource.data, uid))
+                    || (canApprove()
+                        && exists(/databases/$(database)/documents/signups/$(uid))
+                        && !exists(/databases/$(database)/documents/accounts/$(uid))
+                        && request.resource.data.keys().hasOnly(['name', 'order'])
+                        && request.resource.data.name == get(/databases/$(database)/documents/signups/$(uid)).data.name
+                        && request.resource.data.order is number)
+                    || (manager()
+                        && !exists(/databases/$(database)/documents/accounts/$(uid))
+                        && request.resource.data.keys().hasOnly(['name', 'username', 'photo', 'bio', 'link', 'order', 'fullBody', 'code', 'useCode', 'aboutCard', 'aboutMode'])
+                        && request.resource.data.get('order', 0) is number
+                        && cardOk(request.resource.data, uid));
+      allow update: if (signedIn() && request.auth.uid == uid
+                        && !exists(/databases/$(database)/documents/accounts/$(uid))
+                        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['username', 'photo', 'bio', 'link', 'fullBody', 'code', 'useCode', 'aboutCard', 'aboutMode'])
+                        && cardOk(request.resource.data, uid))
+                    || (manager()
+                        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'username', 'photo', 'bio', 'link', 'fullBody', 'code', 'useCode', 'aboutCard', 'aboutMode'])
+                        && cardOk(request.resource.data, uid));
+      allow delete: if (signedIn() && request.auth.uid == uid) || canApprove() || manager();
+    }
+
+    // Friends. A request from A to B is the document A_B. B accepts by adding B_A, and the two are friends while
+    // both exist. Only the two people involved (and the owner) can read either one. Each person adds only their
+    // own side, to someone who is in the staff directory; either person can remove either side, which is how a
+    // request is declined or cancelled and how a friend is removed.
+    match /friends/{edge} {
+      allow read: if isOwner()
+                  || (hasLogin() && (resource.data.from == request.auth.uid || resource.data.to == request.auth.uid));
+      allow create: if isStaff()
+                    && request.resource.data.keys().hasOnly(['from', 'to', 'order'])
+                    && request.resource.data.from == request.auth.uid
+                    && request.resource.data.to is string
+                    && request.resource.data.to != request.auth.uid
+                    && edge == request.auth.uid + '_' + request.resource.data.to
+                    && exists(/databases/$(database)/documents/people/$(request.resource.data.to))
+                    && request.resource.data.order is number;
+      allow delete: if isOwner()
+                    || (isStaff() && (resource.data.from == request.auth.uid || resource.data.to == request.auth.uid));
+    }
+    function friendsWith(uid) {
+      return exists(/databases/$(database)/documents/friends/$(uid + '_' + request.auth.uid))
+             && exists(/databases/$(database)/documents/friends/$(request.auth.uid + '_' + uid));
+    }
+
+    // Sync codes (Lightless Sync, Player Sync), with who may see them: 'private' is the person and the owner,
+    // 'friends' adds the person's friends, 'public' adds every login. Each person writes only their own.
+    match /sync/{uid} {
+      allow read: if isOwner()
+                  || (signedIn() && request.auth.uid == uid)
+                  || (hasLogin() && (resource.data.vis == 'public'
+                                     || (resource.data.vis == 'friends' && friendsWith(uid))));
+      allow create, update: if signedIn() && request.auth.uid == uid && isStaff()
+                            && request.resource.data.keys().hasOnly(['lightless', 'player', 'vis'])
+                            && request.resource.data.lightless is string
+                            && request.resource.data.lightless.size() <= 40
+                            && request.resource.data.player is string
+                            && request.resource.data.player.size() <= 40
+                            && request.resource.data.vis in ['private', 'friends', 'public'];
+      allow delete: if isOwner() || (signedIn() && request.auth.uid == uid);
+    }
+
+    // What each login has earned, added up from the logged nights by a session that is allowed to see pay.
+    // Readable only by that login itself and by those allowed to see pay.
+    match /earnings/{uid} {
+      allow read: if canSeePay() || (signedIn() && request.auth.uid == uid && hasLogin());
+      allow write: if canSeePay();
+    }
+
+    // Each login's private profile: whether it has chosen its own password (and, before v1.2, its
+    // username and picture). A login can only write its own, only these fields, and only a small picture.
+    match /profiles/{uid} {
+      allow read: if isOwner() || (signedIn() && request.auth.uid == uid);
+      allow create, update: if signedIn() && request.auth.uid == uid
+                            && (isOwner() || hasLogin())
+                            && request.resource.data.keys().hasOnly(['photo', 'passwordSet', 'username'])
+                            && request.resource.data.get('photo', '').size() < 300000
+                            && request.resource.data.get('username', '').size() <= 40;
+    }
+
+    // Only the owner can read here; the site uses that to recognise the owner's login
+    match /admin/{docId} {
+      allow read, write: if isOwner();
+    }
+  }
+}

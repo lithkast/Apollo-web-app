@@ -1,0 +1,40 @@
+rules_version = '2';
+// Pictures and videos for Hermes' event posts. Owners, co-owners and the administrator add and remove them (only
+// the administrator in maintenance mode); Firebase reads them when it posts.
+// Since v2.16, profile pictures that move (animated) and full-body pictures for Staff Profiles and Mortal Profiles.
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isAdmin() {
+      return request.auth != null && request.auth.uid == '1CZiVZOMhMUIdhhJNwTelBrIeYb2';
+    }
+    function ownerRole() {
+      return isAdmin() || (request.auth != null
+        && firestore.exists(/databases/(default)/documents/accounts/$(request.auth.uid))
+        && firestore.get(/databases/(default)/documents/accounts/$(request.auth.uid)).data.get('role', '') in ['owner', 'coowner']);
+    }
+    function notInMaintenance() {
+      return isAdmin() || !(firestore.exists(/databases/(default)/documents/config/main)
+        && firestore.get(/databases/(default)/documents/config/main).data.get('maintenance', false) == true);
+    }
+    match /eventmedia/{eventId}/{file} {
+      allow read: if ownerRole();
+      allow create: if ownerRole() && notInMaintenance()
+                    && request.resource.size < 100 * 1024 * 1024
+                    && request.resource.contentType.matches('(image|video)/.*');
+      allow delete: if ownerRole() && notInMaintenance();
+    }
+    // One animated profile picture and one full-body picture per person: cards/<uid>/pic.<type> (up to 4 MB) and
+    // cards/<uid>/body.<type> (up to 8 MB). Anyone can see them, as anyone can see the profiles. Each person adds and
+    // replaces their own, and the administrator anyone's (v2.24); the administrator, owners and co-owners can take
+    // one down.
+    match /cards/{uid}/{file} {
+      allow read: if true;
+      allow create, update: if request.auth != null && (request.auth.uid == uid || isAdmin())
+                            && file.matches('(pic|body)[.](gif|webp|png|jpg|avif)')
+                            && request.resource.contentType.matches('image/(gif|webp|png|jpeg|avif)')
+                            && ((file.matches('pic[.].*') && request.resource.size <= 4 * 1024 * 1024)
+                                || (file.matches('body[.].*') && request.resource.size <= 8 * 1024 * 1024));
+      allow delete: if (request.auth != null && request.auth.uid == uid) || (ownerRole() && notInMaintenance());
+    }
+  }
+}

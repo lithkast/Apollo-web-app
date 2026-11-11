@@ -1,0 +1,188 @@
+{
+ "timeZone": "America/New_York",
+ "maintenance": false,
+ "adminRoster": "",
+ "requestKey": "",
+ "location": {
+  "dc": "Crystal",
+  "world": "Brynhildr",
+  "district": "",
+  "ward": "17",
+  "plot": "5"
+ },
+ "vipStart": "20:30",
+ "startTime": "21:00",
+ "closeTime": "01:00",
+ "rooms": [],
+ "receptionBonus": 0.2,
+ "vipDiscount": 0.75,
+ "rpPrice": 100000,
+ "erpPrice": 150000,
+ "roomRental": 50000,
+ "guestRatePublic": 50000,
+ "guestRatePrivate": 75000,
+ "payGrades": [
+  125000,
+  150000,
+  175000,
+  200000,
+  225000,
+  250000,
+  1000000
+ ],
+ "collabPay": 185750,
+ "collabRate": 1.5,
+ "statuses": [
+  "Full Time",
+  "Part Time",
+  "Freelancer",
+  "Temp",
+  "LOA"
+ ],
+ "customRoles": [],
+ "jobs": [
+  {
+   "name": "Goddess",
+   "pay": "infinite",
+   "attend": false
+  },
+  {
+   "name": "Owner",
+   "pay": "6",
+   "attend": false
+  },
+  {
+   "name": "Co Owner",
+   "pay": "6",
+   "attend": false
+  },
+  {
+   "name": "Manager",
+   "pay": "5"
+  },
+  {
+   "name": "Asst. Manager",
+   "pay": "4"
+  },
+  {
+   "name": "DJ",
+   "pay": "flat",
+   "flat": 2000000
+  },
+  {
+   "name": "Photographer",
+   "pay": "flat",
+   "flat": 1000000
+  },
+  {
+   "name": "Fortune Teller",
+   "pay": "flat",
+   "flat": 1000000
+  },
+  {
+   "name": "Bouncer",
+   "pay": "3"
+  },
+  {
+   "name": "Bartender",
+   "pay": "2"
+  },
+  {
+   "name": "Dealer",
+   "pay": "2"
+  },
+  {
+   "name": "Receptionist",
+   "pay": "2"
+  },
+  {
+   "name": "Host",
+   "pay": "1"
+  },
+  {
+   "name": "Dancer",
+   "pay": "1"
+  }
+ ],
+ "banAuthorizers": [],
+ "banReasons": [],
+ "proofOptions": [
+  "Yes",
+  "No"
+ ],
+ "worlds": [
+  "Aether",
+  "Primal",
+  "Crystal",
+  "Dynamis"
+ ],
+ "barSections": [
+  "Weekly Specials",
+  "On Tap",
+  "Cocktails",
+  "Appetizers",
+  "Entrees",
+  "Desserts",
+  "Tub Grub"
+ ],
+ "barBuyoutRate": 1000000,
+ "barMenu": [],
+ "barBuyout": 4000000,
+ "barSplit": 0.5,
+ "houseSplit": 0.5,
+ "vipCost": 300000,
+ "vipStatuses": [
+  "VIP"
+ ],
+ "vipDiscounts": [
+  {
+   "months": 3,
+   "mult": 0.9
+  },
+  {
+   "months": 6,
+   "mult": 0.85
+  },
+  {
+   "months": 9,
+   "mult": 0.8
+  },
+  {
+   "months": 12,
+   "mult": 0.75
+  }
+ ],
+ "raffleTicketPrice": 100000,
+ "raffleClubCut": 0.5,
+ "raffleMacro": "/y 50/50 Raffle Here! Buy tickets before we roll! The lottery is currently at {total}g. Tickets are {price} each with no maximum. Come to the blinking Cactuar to purchase tickets. Must be in our discord to participate. May the luck of Tyche be in your favor!",
+ "clockRules": {
+  "early": 60,
+  "lateOut": 30
+ },
+ "promoPay": {
+  "pf": 60000,
+  "shout": 140000
+ },
+ "casinoBrackets": [
+  {
+   "upTo": 16000000,
+   "rate": 0.2
+  },
+  {
+   "upTo": 20000000,
+   "rate": 0.25
+  },
+  {
+   "upTo": 25000000,
+   "rate": 0.3
+  },
+  {
+   "upTo": 30000000,
+   "rate": 0.35
+  },
+  {
+   "upTo": null,
+   "rate": 0.4
+  }
+ ]
+}
