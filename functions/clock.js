@@ -34,7 +34,7 @@ const STALE = 16 * 3600000;
 const PRIVATE = 64;
 
 // the commands, as Discord is told about them. Raise the version when they change, and the next check updates them.
-const COMMANDS_VERSION = 4;    // 2: /link became /hermeslink; 3: then /hrlink; 4: /pfclockin and /pfclockout
+const COMMANDS_VERSION = 5;    // 2: /link became /hermeslink; 3: then /hrlink; 4: /pfclockin and /pfclockout; 5: the raffle
 const member = verb => ({type: 6, name: 'member', description: `Owners and co-owners only: clock someone else ${verb}`, required: false});
 const COMMANDS = [
   {name: 'hrlink', description: 'Link your Discord to your Apollo\'s Temple login, with the code from your profile', options: [{type: 3, name: 'code', description: 'The code from the Discord box on your profile', required: true, min_length: 8, max_length: 12}]},
@@ -44,6 +44,7 @@ const COMMANDS = [
   {name: 'onshift', description: 'Who is clocked in right now'},
   {name: 'pfclockin', description: 'Start party finders or shouts for Apollo (I ask which)', options: [member('in for party finders or shouts')]},
   {name: 'pfclockout', description: 'Finish party finders or shouts', options: [member('out of party finders or shouts')]},
+  ...require('./raffle').COMMANDS,
   {name: 'help', description: 'What Hermes can do'}
 ];
 const HELP = [
@@ -55,6 +56,7 @@ const HELP = [
   '`/pfclockin`: start party finders or shouts (I ask which), and `/pfclockout` when you stop. Paid by the hour on top of your shift.',
   '`/hrlink`: link your Discord to the site, with the code from your profile (only once)',
   'Owners and co-owners can add `member:` to `/clockin`, `/clockout`, `/pfclockin` and `/pfclockout` to fix someone else\'s clock.',
+  'Owners and co-owners run the 50/50 raffle: `/raffle` (how it stands), `/raffleclose`, `/rafflereopen`, `/rafflepick` (draws and announces the winner) and `/rafflechannel` (announce winners in this channel).',
   'Only you see my replies.'
 ].join('\n');
 const NOT_LINKED = 'Your Discord isn\'t linked to Apollo\'s Temple yet. On apolloncc.org, open your profile, click **Get a link code** in the Discord box, then type `/hrlink` here with that code.';
@@ -363,6 +365,11 @@ async function handle(ctx, body) {
   if (me.uid !== ADMIN_UID && !(await db.doc('accounts/' + me.uid).get()).exists) return 'The login your Discord is linked to no longer has staff access. Ask the administrator if that\'s a mistake.';
   const cfg = await settings(db);
   if (cmd === 'onshift') return onShift(ctx, cfg);
+  // the 50/50 raffle (raffle.js): owners, co-owners and the administrator
+  if (String(cmd).startsWith('raffle')) {
+    if (!(await isOwner(db, me.uid))) return 'Only owners and co-owners run the raffle.';
+    return require('./raffle').handle({...ctx, cfg}, cmd, {uid: me.uid, name: await loginName(db, me.uid), admin: me.uid === ADMIN_UID}, body);
+  }
   if (cmd === 'shift') return shift(ctx, me.uid, cfg);
   if (cmd === 'clockin' || cmd === 'clockout' || cmd === 'pfclockin' || cmd === 'pfclockout') {
     const other = opt('member'), verb = cmd.endsWith('in') ? 'in' : 'out';
@@ -402,4 +409,4 @@ function newCode(randomInt) {
   return c;
 }
 
-module.exports = {handle, press, direct, COMMANDS, COMMANDS_VERSION, HELP, PRIVATE, CODE_LIFE, newCode, shiftWindow, roundToQuarter, rules, ADMIN_UID};
+module.exports = {handle, press, direct, settings, COMMANDS, COMMANDS_VERSION, HELP, PRIVATE, CODE_LIFE, newCode, shiftWindow, roundToQuarter, rules, ADMIN_UID};

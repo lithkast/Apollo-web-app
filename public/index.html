@@ -1380,9 +1380,13 @@ const RP_TYPES = ['Public', 'Private', 'No Staff'];
 const COLLS = ['reception', 'raffle', 'hr', 'bans', 'vips', 'nights', 'menu', 'buyouts', 'events', 'patrons', 'barmacros'];
 const DOC_DEFAULTS = {
   'night/reception': {receptionist: ''},
-  'night/casino': {s1Gross: null, s1Dealers: [], s2Gross: null, s2Dealers: []},
+  // entries: what each dealer put in from the in-game plugin, by shift ({name, shift, game, profit, ...}); the plugin
+  // adds them up into each shift's gross profit
+  'night/casino': {s1Gross: null, s1Dealers: [], s2Gross: null, s2Dealers: [], entries: {}},
   // whether tonight is a collab night, and who last switched it
   'night/collab': {on: false, by: '', at: null},
+  // v2.29, the 50/50 raffle: the gil the pot starts with, whether ticket sales are closed, and the winner once drawn
+  'night/raffle': {start: null, closed: false, winner: null},
   // what we are hiring for: Join the Staff and the application read it, the owners switch it on Applications
   'hiring/main': {open: false, roles: {}},
   // the application: its steps, questions, positions and disclaimer (the original form until it is first saved)
@@ -1815,7 +1819,7 @@ function ledgerStore(db) {
   ];
   const PRIVATE = {
     // visitors and Mortals read only what the venue pages show (the settings, the menu, the application)
-    hr: isStaff, raffle: isStaff, vips: isStaff, buyouts: isStaff, reception: isStaff, bans: isStaff, 'night/reception': isStaff,
+    hr: isStaff, raffle: isStaff, vips: isStaff, buyouts: isStaff, reception: isStaff, bans: isStaff, 'night/reception': isStaff, 'night/raffle': isStaff,
     // who booked each dancer on Reception
     patrons: isStaff,
     // the menu is public (the Taverna page shows it) but carries a picture for each item, so it is only fetched
@@ -2057,8 +2061,9 @@ const SNAP = {
     const cfg = state.config;
     const entries = state.raffle.filter(r => isNum(r.tickets) && r.tickets > 0).map(r => ({patron: r.patron || '', world: r.world || '', tickets: r.tickets, cost: r.tickets * cfg.raffleTicketPrice, takenBy: r.takenBy || '', paid: !!r.paid}));
     if (!entries.length) return null;
-    const total = entries.reduce((a, e) => a + e.cost, 0), clubCut = total * cfg.raffleClubCut;
-    return {loggedAt: Date.now(), ticketPrice: cfg.raffleTicketPrice, tickets: entries.reduce((a, e) => a + e.tickets, 0), total, clubCut, winnerCut: total - clubCut, entries};
+    // v2.29: the pot can start with gil in it; the club takes its cut of ticket sales only
+    const start = raffleStart(), sales = entries.reduce((a, e) => a + e.cost, 0), total = start + sales, clubCut = sales * cfg.raffleClubCut;
+    return {loggedAt: Date.now(), ticketPrice: cfg.raffleTicketPrice, tickets: entries.reduce((a, e) => a + e.tickets, 0), start, total, clubCut, winnerCut: total - clubCut, entries};
   },
   casino() {
     const cfg = state.config, d = state.docs['night/casino'];
@@ -2185,33 +2190,47 @@ function receptionPage(off, acts) {
     + `<p class="note">Public is ${gil(cfg.rpPrice)} an hour and private is ${gil(cfg.erpPrice)} an hour; a room with no staff is ${gil(cfg.roomRental)} an hour. Each guest after the first adds a flat ${gil(cfg.guestRatePublic)} (${gil(cfg.guestRatePrivate)} for private). VIPs pay ${pct(cfg.vipDiscount)} of the total.</p>`;
 }
 
+// v2.29: the pot can start with gil already in it; an entry can carry the patron's Discord name, so Hermes can mention
+// them if they win; and the raffle is closed (no more tickets) before the winner is drawn. Hermes draws it
+// (functions/raffle.js), from here, from the in-game plugin or with /rafflepick, and announces it in Discord.
+const raffleNight = () => state.docs['night/raffle'] || {};
+const raffleStart = () => { const v = raffleNight().start; return isNum(v) && v > 0 ? v : 0; };
 function viewRaffle() {
-  const cfg = state.config;
-  let total = 0, tickets = 0;
+  const cfg = state.config, night = raffleNight(), start = raffleStart(), closed = !!night.closed, w = night.winner || null;
+  let sales = 0, tickets = 0;
   const body = state.raffle.map(r => {
     const cost = isNum(r.tickets) ? r.tickets * cfg.raffleTicketPrice : null;
-    if (cost != null) { total += cost; tickets += r.tickets; }
+    if (cost != null) { sales += cost; tickets += r.tickets; }
     return `<tr class="${r.paid ? 'paid' : ''}">
       <td class="stick">${inp('raffle', r.id, 'patron', r.patron, {label: 'Patron name'})}</td>
       <td>${sel('raffle', r.id, 'world', r.world, cfg.worlds, {label: 'World'})}</td>
+      <td>${inp('raffle', r.id, 'discord', r.discord, {label: 'Discord name, so Hermes can mention them if they win'})}</td>
       <td>${inp('raffle', r.id, 'tickets', r.tickets, {kind: 'num', label: 'Tickets', cls: 'cell r'})}</td>
       <td class="num">${gil(cost)}</td>
       <td>${inp('raffle', r.id, 'takenBy', r.takenBy, {label: 'Money taken by', list: 'staff-names'})}</td>
       <td class="c">${chk('raffle', r.id, 'paid', r.paid, 'Paid')}</td>
       <td class="c">${delBtn('raffle', r.id, r.patron)}</td></tr>`;
   }).join('');
-  const club = total * cfg.raffleClubCut;
+  const total = start + sales, club = sales * cfg.raffleClubCut;
   const macro = String(cfg.raffleMacro || '').split('{total}').join(fmtNum(total)).split('{price}').join(fmtShort(cfg.raffleTicketPrice));
+  // open: sell tickets, then close. Closed: draw the winner (owners and co-owners), or open it again.
+  const flow = closed
+    ? btn('Reopen the raffle', 'raffle-reopen') + (isOwnerRole() ? `<button type="button" class="btn primary" data-act="raffle-pick"${dis()}${w || !tickets || ui.rafflePicking ? ' disabled' : ''}>${ui.rafflePicking ? 'Drawing' : 'Pick the winner'}</button>` : '')
+    : btn('Add a patron', 'add-raffle', '', 'primary') + (state.raffle.length ? btn('Close the raffle', 'raffle-close') : '');
+  const banner = w ? `<p class="note" style="max-width:none"><b>Winner: ${esc(w.patron)}</b>${w.world ? ` (${esc(w.world)})` : ''}, with ${fmtNum(w.tickets)} ticket${w.tickets === 1 ? '' : 's'}. They take home ${gil(w.pot)}. Drawn by ${esc(w.by || 'Hermes')}. Reopen the raffle to draw again.</p>`
+    : closed ? '<p class="note" style="max-width:none">The raffle is closed: no more tickets. Pick the winner, or reopen it if it was closed by mistake.</p>' : '';
   return head('50/50 raffle', `${gil(cfg.raffleTicketPrice)} per ticket, split automatically between the club and the winner.`,
-      btn('Add a patron', 'add-raffle', '', 'primary') + (state.raffle.length ? confirmBtn('Clear the raffle', 'clear-raffle', 'clear-raffle', unlogged('raffle')) : '') + logControls('raffle'))
+      flow + (state.raffle.length ? confirmBtn('Clear the raffle', 'clear-raffle', 'clear-raffle', unlogged('raffle')) : '') + logControls('raffle'))
+    + banner
     + `<dl class="figs">
+        <div><dt><label for="raffle-start">Starting pot</label></dt><dd class="sel">${inp('night', 'raffle', 'start', night.start, {kind: 'money', cls: 'field r sm', label: 'Gil in the pot before any ticket is sold', ph: '0'}).replace('<input', '<input id="raffle-start"')}</dd></div>
         <div><dt>Lottery total</dt><dd>${gil(total) || '0g'}</dd></div>
-        <div><dt>Club cut (${pct(cfg.raffleClubCut)})</dt><dd>${gil(club) || '0g'}</dd></div>
+        <div><dt>Club cut (${pct(cfg.raffleClubCut)} of sales)</dt><dd>${gil(club) || '0g'}</dd></div>
         <div class="gold"><dt>Winner's cut</dt><dd>${gil(total - club) || '0g'}</dd></div>
         <div><dt>Tickets sold</dt><dd>${fmtNum(tickets) || '0'}</dd></div>
       </dl>`
-    + table([['Patron', 'stick', '200px'], ['World', '', '130px'], ['Tickets', 'num', '90px'], ['Cost', 'num'], ['Money taken by', '', '180px'], ['Paid', 'c', '56px'], ['', '', '70px']],
-        body, 760, 'No tickets sold yet. Add a patron to start the pot.')
+    + table([['Patron', 'stick', '200px'], ['World', '', '130px'], ['Discord', '', '160px'], ['Tickets', 'num', '90px'], ['Cost', 'num'], ['Money taken by', '', '180px'], ['Paid', 'c', '56px'], ['', '', '70px']],
+        body, 920, 'No tickets sold yet. Add a patron to start the pot.')
     + `<datalist id="staff-names">${staffNames().map(n => `<option value="${esc(n)}">`).join('')}</datalist>
        ${raffleMacroHtml(total, macro)}`;
 }
@@ -3078,15 +3097,24 @@ function act(name, el) {
       addRow('events', {title: '', date: cal().day, start: hhmmToSec(cfg.startTime), end: null, where: '', notes: ''}); break;
     }
     case 'add-menu': ui.q.bar = ''; addRow('menu', {type: el.dataset.type || (cfg.barSections || [])[0] || 'Other', name: '', item: '', cost: null}); break;
-    case 'add-raffle': addRow('raffle', {patron: '', world: '', tickets: null, takenBy: '', paid: false}); break;
+    case 'add-raffle': if (raffleNight().closed) { toast('The raffle is closed. Reopen it to sell more tickets.'); break; } addRow('raffle', {patron: '', world: '', discord: '', tickets: null, takenBy: '', paid: false}); break;
+    case 'raffle-close': commit('night', 'raffle', {closed: true, closedAt: Date.now(), closedBy: myName()}); toast('The raffle is closed: no more tickets.'); break;
+    case 'raffle-reopen': commit('night', 'raffle', {closed: false, winner: null}); toast('The raffle is open again.'); break;
+    case 'raffle-pick':
+      if (ui.rafflePicking) break;
+      ui.rafflePicking = true; scheduleRender();
+      callFn('rafflePick').then(r => toast(`The winner is ${r.winner.patron}: ${gil(r.winner.pot)}.${r.announced ? ' Hermes has announced it in Discord.' : ' Hermes could not announce it: type /rafflechannel in the channel for winners.'}`),
+          e => toast((e && e.message && e.message !== 'internal' ? e.message : '') || 'The winner could not be drawn. Try again in a moment.'))
+        .then(() => { ui.rafflePicking = false; scheduleRender(); });
+      break;
     case 'add-hr': ui.q.hr = ''; addRow('hr', {name: '', job: '', status: '', missed: 0, clockIn: false, clockOut: false, timeIn: null, timeOut: null, paid: false}); break;
     case 'add-ban': addRow('bans', {legacy: false, name: '', logged: false, date: '', by: '', reason: '', proof: '', notes: ''}); break;
     case 'add-legacy-ban': addRow('bans', {legacy: true, name: '', logged: true, date: '', by: '', reason: '', proof: '', notes: ''}); break;
     case 'add-vip': addRow('vips', {player: '', discord: '', boost: false, status: cfg.vipStatuses[0] || '', months: null, start: venueToday(), photo: false, booking: false}); break;
     case 'del': removeRow(el.dataset.coll, el.dataset.id); if (el.dataset.coll === 'menu' && state.barmacros.some(x => x.id === el.dataset.id)) removeRow('barmacros', el.dataset.id); break;
     case 'clear-reception': for (const r of state.reception.slice()) removeRow('reception', r.id); break;
-    case 'clear-raffle': for (const r of state.raffle.slice()) removeRow('raffle', r.id); break;
-    case 'clear-casino': commit('night', 'casino', {s1Gross: null, s1Dealers: [], s2Gross: null, s2Dealers: []}); break;
+    case 'clear-raffle': for (const r of state.raffle.slice()) removeRow('raffle', r.id); if (raffleNight().closed || raffleNight().winner) commit('night', 'raffle', {closed: false, winner: null}); break;
+    case 'clear-casino': commit('night', 'casino', {s1Gross: null, s1Dealers: [], s2Gross: null, s2Dealers: [], entries: {}}); break;
     case 'new-night':
       for (const r of state.hr) if (r.clockIn || r.clockOut || r.paid || isNum(r.timeIn) || isNum(r.timeOut) || r.promoKind || r.promoPf || r.promoShout) commit('hr', r.id, {clockIn: false, clockOut: false, timeIn: null, timeOut: null, paid: false, promoKind: '', promoIn: null, promoPf: 0, promoShout: 0, promoAt: null});
       scheduleRender(); toast('Clocks, promotion hours and paid ticks cleared for a new night.'); break;
@@ -6459,7 +6487,7 @@ function viewMacroSet(set) {
 // The 50/50 raffle's announcement macro. It is kept in Settings (config/main, raffleMacro), and owners and
 // co-owners change it from the Raffle page; firestore.rules lets them change that one setting and nothing else there.
 const canEditRaffleMacro = () => me.admin || (!state.config.maintenance && !!(me.acct && ownerKey(me.acct.role)));
-const raffleTotal = () => state.raffle.reduce((t, r) => t + (isNum(r.tickets) ? r.tickets * state.config.raffleTicketPrice : 0), 0);
+const raffleTotal = () => raffleStart() + state.raffle.reduce((t, r) => t + (isNum(r.tickets) ? r.tickets * state.config.raffleTicketPrice : 0), 0);
 const fillRaffle = (t, total) => String(t || '').split('{total}').join(fmtNum(total)).split('{price}').join(fmtShort(state.config.raffleTicketPrice));
 function raffleMacroHtml(total, macro) {
   const can = canEditRaffleMacro();

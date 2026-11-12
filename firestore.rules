@@ -335,10 +335,16 @@ service cloud.firestore {
     // Whether tonight is a collab night is public too: Reception shows it.
     match /night/{docId} {
       allow read: if (docId == 'reception' && isStaff())
+                  || (docId == 'raffle' && isStaff())
                   || docId == 'collab'
                   || (docId == 'casino' && canView('casino'));
       allow write: if (docId == 'reception' && canEdit('reception'))
                    || (docId == 'casino' && canEdit('casino'))
+                   // the 50/50 raffle: the pot it starts with, whether it is closed, and its winner
+                   || (docId == 'raffle' && canEdit('raffle')
+                       && request.resource.data.keys().hasOnly(['start', 'closed', 'closedAt', 'closedBy', 'winner'])
+                       && (request.resource.data.get('start', null) == null || request.resource.data.start is number)
+                       && request.resource.data.get('closed', false) is bool)
                    || (docId == 'collab' && canCollab()
                        && request.resource.data.keys().hasOnly(['on', 'by', 'at'])
                        && request.resource.data.on is bool

@@ -14,6 +14,7 @@
 //   discordUnlink         for the site: undoes that link
 //   discordSetup          for the site (administrator): tells Discord about the slash commands again
 //   pluginClock           for the in-game plugin (ApolloNCC): clock in and out, like the slash commands
+//   rafflePick            for the site and the plugin (owners): draws the 50/50 raffle's winner and announces it
 //   listAccounts          for the site (administrator): everyone with an account, Mortals included
 //
 // The bot's token is a secret (DISCORD_BOT_TOKEN): the first deploy asks for it. BOT-SETUP.txt has the steps.
@@ -49,6 +50,15 @@ const handlers = () => require('./handlers');
 const posts = () => require('./eventposts');
 const discord = () => require('./discordbot');
 const clock = () => require('./clock');
+const raffle = () => require('./raffle');
+// what the raffle needs of Discord: looking someone up in the server by name, and posting in a channel
+function raffleDiscord(token) {
+  return {
+    randomInt: require('crypto').randomInt,
+    members: async q => { const g = await guildId(); return g ? discord().members(token, g, q) : {ok: false}; },
+    post: (channel, message) => discord().call(token, 'POST', `/channels/${channel}/messages`, message)
+  };
+}
 // pictures and videos for the posts, in the project's storage
 function media() {
   database();
@@ -179,7 +189,7 @@ exports.discordInteractions = onRequest({secrets: [BOT_TOKEN], timeoutSeconds: 6
   let acked = cold ? callback() : null;
   const timer = cold ? null : setTimeout(() => { acked = callback(); }, 2000);
   let result;
-  try { result = await (button ? clock().press : clock().handle)({db: database(), now: Date.now()}, body); }
+  try { result = await (button ? clock().press : clock().handle)({db: database(), now: Date.now(), ...raffleDiscord(token)}, body); }
   catch (e) { logger.error('Command failed', {command: what, error: e.message}); result = 'Something went wrong on my side. Try again in a moment, or use the HR page.'; }
   clearTimeout(timer);
   const reply = result && typeof result === 'object' ? result : {content: result}, allowed = {parse: []};
@@ -246,6 +256,20 @@ exports.pluginClock = onCall(async request => {
   if (!uid) throw new HttpsError('unauthenticated', 'Sign in first.');
   const d = request.data || {};
   return {message: await clock().direct({db: database(), now: Date.now()}, uid, String(d.action || ''), String(d.kind || ''))};
+});
+
+// Draws the 50/50 raffle's winner (owners, co-owners and the administrator), from the Raffle page or the plugin.
+// The raffle has to be closed first. Hermes announces the winner in Discord, mentioning them when their entry has
+// a Discord name.
+exports.rafflePick = onCall({secrets: [BOT_TOKEN]}, async request => {
+  await mustOwn(request);
+  const uid = request.auth.uid, db = database(), cfg = await clock().settings(db);
+  if (cfg.maintenance && uid !== ADMIN_UID) throw new HttpsError('failed-precondition', 'The site is in maintenance mode, so the raffle can\'t be drawn right now.');
+  const [p, a] = await Promise.all([db.doc('people/' + uid).get(), db.doc('accounts/' + uid).get()]);
+  const name = String((p.exists && p.data().username) || (a.exists && a.data().name) || '').trim() || 'an owner';
+  const r = await raffle().pick({db, now: Date.now(), cfg, ...raffleDiscord(BOT_TOKEN.value())}, {uid, name});
+  if (!r.ok) throw new HttpsError('failed-precondition', r.why);
+  return r;
 });
 
 // Settings: tell Discord about the commands again now (they are also kept up to date by the every-minute check)
